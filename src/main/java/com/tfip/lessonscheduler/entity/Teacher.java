@@ -1,13 +1,24 @@
 package com.tfip.lessonscheduler.entity;
 
+import java.util.List;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +27,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "teacher")
 public class Teacher {
@@ -35,12 +45,26 @@ public class Teacher {
   private String email;
 
   @Column(name = "leave_days",nullable=false,columnDefinition="INT DEFAULT 14")
-  @Builder.Default
   private Integer leaveDays = 14;
 
-  @Column(name = "occupancy",nullable=false)
-  private Integer occupancy;
+  @ManyToOne
+  @JoinColumn(name = "manager_id", referencedColumnName = "id")
+  @JsonBackReference
+  private Teacher manager;
 
-  //add manager id
-  //add department relationship
+  @OneToMany(mappedBy = "manager")
+  @JsonManagedReference
+  private List<Teacher> teachers;
+
+  @ManyToOne
+  @JoinColumn(name = "department_id", referencedColumnName = "id",nullable=false)
+  private Department department;
+
+  @ManyToMany(cascade = { CascadeType.REMOVE })
+  @JoinTable(
+    name = "teachers_subjects", 
+    joinColumns = { @JoinColumn(name = "teacher_id") }, 
+    inverseJoinColumns = { @JoinColumn(name = "subject_id") }
+  )
+    Set<Subject> subjects;
 }
