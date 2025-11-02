@@ -2,6 +2,8 @@ package com.tfip.lessonscheduler.entity;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,10 +38,12 @@ public class Subject {
   private String subjectCode;
 
   @ManyToOne(cascade={CascadeType.REMOVE})
+  @JsonIgnore
   @JoinColumn(name = "department_id", referencedColumnName = "id",nullable=false)
   private Department department;
 
   @ManyToMany(mappedBy="subjects")
+  @JsonIgnore
     Set<Teacher> teachers;
 
 }
