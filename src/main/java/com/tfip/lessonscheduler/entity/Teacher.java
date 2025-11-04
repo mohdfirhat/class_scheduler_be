@@ -51,6 +51,9 @@ public class Teacher {
   private Set<Teacher> teachers;
 
   @OneToMany(mappedBy = "teacher")
+  private Set<Lesson> lessons;
+
+  @OneToMany(mappedBy = "teacher")
   private Set<TeacherLeave> teacherLeaves;
 
   @ManyToOne

@@ -2,8 +2,9 @@ package com.tfip.lessonscheduler.controller;
 
 import java.util.List;
 
-import com.tfip.lessonscheduler.dto.TeacherWLeaveResponse;
-import com.tfip.lessonscheduler.dto.TeacherWSubjectResponse;
+import com.tfip.lessonscheduler.dto.TeacherWLeavesResponse;
+import com.tfip.lessonscheduler.dto.TeacherWSubjectsResponse;
+import com.tfip.lessonscheduler.dto.TeacherWithLeavesAndLessonsResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,13 +26,20 @@ public class TeacherController {
   }
 
   @GetMapping("subjects/{managerId}")
-  public ResponseEntity<List<TeacherWSubjectResponse>> getAllTeacherWithSubjects(@PathVariable Long managerId) {
+  public ResponseEntity<List<TeacherWSubjectsResponse>> getAllTeacherWithSubjects(@PathVariable Long managerId) {
       return new ResponseEntity<>(teacherService.getTeachersWithSubjects(managerId), HttpStatus.OK);
   }
 
   @GetMapping("leaves/{managerId}")
-  public ResponseEntity<List<TeacherWLeaveResponse>> getAllTeacherWithLeaves(@PathVariable Long managerId) {
+  public ResponseEntity<List<TeacherWLeavesResponse>> getAllTeacherWithLeaves(@PathVariable Long managerId) {
     return new ResponseEntity<>(teacherService.getTeachersWithLeaves(managerId), HttpStatus.OK);
   }
+
+  @GetMapping("schedule/{teacherId}")
+  public ResponseEntity<TeacherWithLeavesAndLessonsResponse> getTeacherWithSchedules(@PathVariable Long teacherId) {
+    return new ResponseEntity<>(teacherService.getTeacherWithLeavesAndLessons(teacherId),
+            HttpStatus.OK);
+  }
+
   
 }
