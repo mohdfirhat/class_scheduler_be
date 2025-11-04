@@ -1,16 +1,10 @@
 package com.tfip.lessonscheduler.entity;
 
-import java.util.List;
 import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,7 +37,7 @@ public class Teacher {
   @Column(name = "last_name",nullable=false)
   private String lastName;
 
-  @Column(name = "email")
+  @Column(name = "email",nullable=false)
   private String email;
 
   @Column(name = "leave_days",nullable=false,columnDefinition="INT DEFAULT 14")
@@ -51,18 +45,13 @@ public class Teacher {
 
   @ManyToOne
   @JoinColumn(name = "manager_id", referencedColumnName = "id")
-//  @JsonBackReference
   private Teacher manager;
 
   @OneToMany(mappedBy = "manager")
-//  @JsonManagedReference
-//  @JsonIgnore
-  private List<Teacher> teachers;
+  private Set<Teacher> teachers;
 
   @OneToMany(mappedBy = "teacher")
-//  @JsonManagedReference
-//  @JsonIgnore
-  private List<TeacherLeave> teacherLeaves;
+  private Set<TeacherLeave> teacherLeaves;
 
   @ManyToOne
   @JoinColumn(name = "department_id", referencedColumnName = "id",nullable=false)
