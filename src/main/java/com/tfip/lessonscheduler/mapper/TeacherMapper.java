@@ -38,6 +38,22 @@ public class TeacherMapper {
         return response;
     }
 
+    public TeacherDto toTeacherDto(Teacher teacher) {
+        if (teacher == null) {
+            return null;
+        }
+
+        TeacherDto dto = new TeacherDto();
+
+        dto.setId(teacher.getId());
+        dto.setFirstName(teacher.getFirstName());
+        dto.setLastName(teacher.getLastName());
+        dto.setEmail(teacher.getEmail());
+        dto.setLeaveDays(teacher.getLeaveDays());
+
+        return dto;
+    }
+
     public TeacherWLeavesResponse toTeacherWLeaveResponse(Teacher teacher) {
         if (teacher == null) {
             return null;

@@ -25,17 +25,17 @@ public class TeacherController {
     this.teacherService= teacherService;
   }
 
-  @GetMapping("subjects/{managerId}")
+  @GetMapping("{managerId}/subjects")
   public ResponseEntity<List<TeacherWSubjectsResponse>> getAllTeacherWithSubjects(@PathVariable Long managerId) {
       return new ResponseEntity<>(teacherService.getTeachersWithSubjects(managerId), HttpStatus.OK);
   }
 
-  @GetMapping("leaves/{managerId}")
+  @GetMapping("{managerId}/leaves")
   public ResponseEntity<List<TeacherWLeavesResponse>> getAllTeacherWithLeaves(@PathVariable Long managerId) {
     return new ResponseEntity<>(teacherService.getTeachersWithLeaves(managerId), HttpStatus.OK);
   }
 
-  @GetMapping("schedule/{teacherId}")
+  @GetMapping("schedules/{teacherId}")
   public ResponseEntity<TeacherWithLeavesAndLessonsResponse> getTeacherWithSchedules(@PathVariable Long teacherId) {
     return new ResponseEntity<>(teacherService.getTeacherWithLeavesAndLessons(teacherId),
             HttpStatus.OK);
