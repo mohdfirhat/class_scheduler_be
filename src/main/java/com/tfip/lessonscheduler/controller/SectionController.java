@@ -16,20 +16,20 @@ import java.util.List;
 @RequestMapping("api/sections")
 public class SectionController {
 
-    private SectionService lessonService;
+    private SectionService sectionService;
 
-    public  SectionController(SectionService lessonService) {
-        this.lessonService = lessonService;
+    public  SectionController(SectionService sectionService) {
+        this.sectionService = sectionService;
     }
 
     @GetMapping("conflict_leave/{leaveId}/available_teachers")
     public ResponseEntity<List<SectionWAvailableTeachersResponse>> getSectionsWithAvailableTeachers(@PathVariable Long leaveId) {
-        return new ResponseEntity<>(lessonService.getAllSectionsWithAvailableTeachers(leaveId), HttpStatus.OK);
+        return new ResponseEntity<>(sectionService.getAllSectionsWithAvailableTeachers(leaveId), HttpStatus.OK);
     }
 
     @GetMapping("conflict_leave/{leaveId}/all_sections")
     public ResponseEntity<List<SectionWTeacherResponse>> getAllSectionsOfAllTeachersInvolved(@PathVariable Long leaveId) {
-        return new ResponseEntity<>(lessonService.getAllSectionsOfAllTeachersInvolved(leaveId), HttpStatus.OK);
+        return new ResponseEntity<>(sectionService.getAllSectionsOfAllTeachersInvolved(leaveId), HttpStatus.OK);
     }
 
 }
