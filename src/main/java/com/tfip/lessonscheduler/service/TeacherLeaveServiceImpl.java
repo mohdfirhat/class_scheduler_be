@@ -1,12 +1,12 @@
 package com.tfip.lessonscheduler.service;
 
 import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
-import com.tfip.lessonscheduler.entity.Lesson;
+import com.tfip.lessonscheduler.entity.Section;
 import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
 import com.tfip.lessonscheduler.exception.AppException;
 import com.tfip.lessonscheduler.mapper.TeacherLeaveMapper;
-import com.tfip.lessonscheduler.repository.LessonRepository;
+import com.tfip.lessonscheduler.repository.SectionRepository;
 import com.tfip.lessonscheduler.repository.TeacherLeaveRepository;
 import com.tfip.lessonscheduler.repository.TeacherRepository;
 import org.springframework.stereotype.Service;
@@ -21,12 +21,12 @@ import java.util.Set;
 public class TeacherLeaveServiceImpl implements TeacherLeaveService {
 
     private TeacherRepository teacherRepository;
-    private LessonRepository lessonRepository;
+    private SectionRepository lessonRepository;
     private TeacherLeaveRepository leaveRepository;
     private TeacherLeaveMapper teacherLeaveMapper;
 
     public TeacherLeaveServiceImpl(TeacherRepository teacherRepository,
-                                   LessonRepository lessonRepository,
+                                   SectionRepository lessonRepository,
                                    TeacherLeaveRepository leaveRepository,
                                    TeacherLeaveMapper teacherLeaveMapper) {
         this.teacherRepository = teacherRepository;
@@ -45,7 +45,7 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
         LocalDateTime end = leave.getEndDate().atTime(23, 59, 59);
 
         // Get all lesson within leave period
-        List<Lesson> conflictingLessons =
+        List<Section> conflictingSections =
                 lessonRepository.findByTeacherIdAndStartTimeBetween(leave.getTeacher().getId(),start,end);
 
         // Create response object
@@ -54,12 +54,12 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
         availableTeacherIds.add(leave.getTeacher().getId());
 
         // Find available teachers for each lesson
-        for (Lesson lesson : conflictingLessons) {
+        for (Section lesson : conflictingSections) {
             LocalDate lessonDate = lesson.getStartTime().toLocalDate();
-            List<Teacher> availableTeachersForLesson =
+            List<Teacher> availableTeachersForSection =
                     teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(lesson.getStartTime(), lesson.getEndTime(), lessonDate, lesson.getCourse().getId());
 
-            for (Teacher teacher : availableTeachersForLesson) {
+            for (Teacher teacher : availableTeachersForSection) {
                 //add all available teacher to availableTeacherIds
                 availableTeacherIds.add(teacher.getId());
             }

@@ -7,12 +7,12 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherWithLeavesAndLessonsResponse {
+public class TeacherWithLeavesAndSectionsResponse {
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
     private Integer leaveDays;
     private TeacherLeaveDto[] teacherLeaves;
-    private LessonDto[] lessons;
+    private SectionDto[] sections;
 }

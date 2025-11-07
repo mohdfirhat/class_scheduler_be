@@ -1,7 +1,7 @@
 package com.tfip.lessonscheduler.mapper;
 
 import com.tfip.lessonscheduler.dto.*;
-import com.tfip.lessonscheduler.entity.Lesson;
+import com.tfip.lessonscheduler.entity.Section;
 import com.tfip.lessonscheduler.entity.Course;
 import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
@@ -81,12 +81,12 @@ public class TeacherMapper {
         return response;
     }
 
-    public TeacherWithLeavesAndLessonsResponse toTeacherWLeavesAndLessonsResponse(Teacher teacher) {
+    public TeacherWithLeavesAndSectionsResponse toTeacherWLeavesAndSectionsResponse(Teacher teacher) {
         if (teacher == null) {
             return null;
         }
 
-        TeacherWithLeavesAndLessonsResponse response = new TeacherWithLeavesAndLessonsResponse();
+        TeacherWithLeavesAndSectionsResponse response = new TeacherWithLeavesAndSectionsResponse();
 
         response.setId(teacher.getId());
         response.setFirstName(teacher.getFirstName());
@@ -105,15 +105,15 @@ public class TeacherMapper {
             response.setTeacherLeaves(new TeacherLeaveDto[0]);
         }
 
-        // Convert Set<Lesson> → CourseDto[]
-        Set<Lesson> lesson = teacher.getLessons();
+        // Convert Set<Section> → CourseDto[]
+        Set<Section> lesson = teacher.getSections();
         if (lesson != null && !lesson.isEmpty()) {
-            LessonDto[] lessonDtos = lesson.stream()
-                    .map(this::toLessonDto)
-                    .toArray(LessonDto[]::new);
-            response.setLessons(lessonDtos);
+            SectionDto[] lessonDtos = lesson.stream()
+                    .map(this::toSectionDto)
+                    .toArray(SectionDto[]::new);
+            response.setSections(lessonDtos);
         } else {
-            response.setLessons(new LessonDto[0]);
+            response.setSections(new SectionDto[0]);
         }
 
         return response;
@@ -142,11 +142,11 @@ public class TeacherMapper {
 
         return dto;
     }
-    private LessonDto toLessonDto(Lesson lesson) {
+    private SectionDto toSectionDto(Section lesson) {
         if (lesson == null) {
             return null;
         }
-        LessonDto dto = new LessonDto();
+        SectionDto dto = new SectionDto();
         dto.setId(lesson.getId());
         dto.setName(lesson.getName());
         dto.setDescription(lesson.getDescription());

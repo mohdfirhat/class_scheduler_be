@@ -1,16 +1,15 @@
 package com.tfip.lessonscheduler.dto;
 
-import lombok.AllArgsConstructor;
+import java.time.LocalDateTime;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import lombok.AllArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LessonWAvailableTeachersResponse {
+public class SectionDto {
     private Long id;
     private String name;
     private String description;
@@ -18,5 +17,5 @@ public class LessonWAvailableTeachersResponse {
     private LocalDateTime endTime;
     private Integer classSize;
     private String status;
-    private List<TeacherDto> availableTeachers;
+
 }

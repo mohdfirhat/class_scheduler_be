@@ -52,7 +52,7 @@ VALUES
 	(4,3),
 	(4,4);
 
-INSERT INTO lesson 
+INSERT INTO section
 	(teacher_id,venue_id,course_id,name,start_time,end_time,class_size)
 VALUES 
 	(2,1,1,'lesson 1','2025-10-18 08:00:00','2025-10-18 10:00:00',10),

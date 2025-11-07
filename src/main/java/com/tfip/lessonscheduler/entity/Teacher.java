@@ -51,7 +51,7 @@ public class Teacher {
   private Set<Teacher> teachers;
 
   @OneToMany(mappedBy = "teacher")
-  private Set<Lesson> lessons;
+  private Set<Section> sections;
 
   @OneToMany(mappedBy = "teacher")
   private Set<TeacherLeave> teacherLeaves;

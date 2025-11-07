@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.tfip.lessonscheduler.dto.TeacherWLeavesResponse;
 import com.tfip.lessonscheduler.dto.TeacherWCoursesResponse;
-import com.tfip.lessonscheduler.dto.TeacherWithLeavesAndLessonsResponse;
+import com.tfip.lessonscheduler.dto.TeacherWithLeavesAndSectionsResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,10 +36,8 @@ public class TeacherController {
   }
 
   @GetMapping("schedules/{teacherId}")
-  public ResponseEntity<TeacherWithLeavesAndLessonsResponse> getTeacherWithSchedules(@PathVariable Long teacherId) {
-    return new ResponseEntity<>(teacherService.getTeacherWithLeavesAndLessons(teacherId),
+  public ResponseEntity<TeacherWithLeavesAndSectionsResponse> getTeacherWithSchedules(@PathVariable Long teacherId) {
+    return new ResponseEntity<>(teacherService.getTeacherWithLeavesAndSections(teacherId),
             HttpStatus.OK);
   }
-
-  
 }

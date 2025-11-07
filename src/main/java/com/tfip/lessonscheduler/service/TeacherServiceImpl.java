@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.tfip.lessonscheduler.dto.TeacherWLeavesResponse;
 import com.tfip.lessonscheduler.dto.TeacherWCoursesResponse;
-import com.tfip.lessonscheduler.dto.TeacherWithLeavesAndLessonsResponse;
+import com.tfip.lessonscheduler.dto.TeacherWithLeavesAndSectionsResponse;
 import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.exception.AppException;
 import com.tfip.lessonscheduler.mapper.TeacherMapper;
@@ -34,9 +34,9 @@ public class TeacherServiceImpl implements TeacherService{
   }
 
   @Override
-  public TeacherWithLeavesAndLessonsResponse getTeacherWithLeavesAndLessons(Long teacherId) {
+  public TeacherWithLeavesAndSectionsResponse getTeacherWithLeavesAndSections(Long teacherId) {
     Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(()-> new AppException("Teacher with id " + teacherId + " not found"));
-    return teacherMapper.toTeacherWLeavesAndLessonsResponse(teacher);
+    return teacherMapper.toTeacherWLeavesAndSectionsResponse(teacher);
   }
 
 

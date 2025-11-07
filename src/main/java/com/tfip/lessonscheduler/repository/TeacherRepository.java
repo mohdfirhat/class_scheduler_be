@@ -17,7 +17,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
    * Get available teacher that fit this description
    * <ul>
    *     <li>
-   *        has no lesson at that time(startTime endTime)
+   *        has no section at that time(startTime endTime)
    *     </li>
    *     <li>
    *        teaches that course(=courseId)
@@ -26,10 +26,10 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
    *        did not take leave that day
    *     </li>
    * </ul>
-   * @param startTime start time of lesson
-   * @param endTime end time of lesson
-   * @param lessonDate date of lesson
-   * @param courseId id of lesson's course
+   * @param startTime start time of section
+   * @param endTime end time of section
+   * @param sectionDate date of section
+   * @param courseId id of section's course
    * @return list of available Teacher
    */
   @Query("""
@@ -40,7 +40,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
       AND t.manager.id IS NOT NULL
       AND NOT EXISTS (
           SELECT 1
-          FROM Lesson l
+          FROM Section l
           WHERE l.teacher.id = t.id
             AND l.startTime < :endTime
             AND l.endTime   > :startTime
@@ -49,15 +49,15 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
           SELECT 1
           FROM TeacherLeave tl
           WHERE tl.teacher.id = t.id
-            AND tl.startDate <= :lessonDate
-            AND tl.endDate   >= :lessonDate
+            AND tl.startDate <= :sectionDate
+            AND tl.endDate   >= :sectionDate
             AND tl.status = "approved"
       )
 """)
 List<Teacher> findAllAvailableTeachersByCourseAndNotOnLeave(
         @Param("startTime") LocalDateTime startTime,
         @Param("endTime") LocalDateTime endTime,
-        @Param("lessonDate") LocalDate lessonDate,
+        @Param("sectionDate") LocalDate sectionDate,
         @Param("courseId") Long courseId
 );
 }
