@@ -3,7 +3,7 @@ package com.tfip.lessonscheduler.service;
 import java.util.List;
 
 import com.tfip.lessonscheduler.dto.TeacherWLeavesResponse;
-import com.tfip.lessonscheduler.dto.TeacherWSubjectsResponse;
+import com.tfip.lessonscheduler.dto.TeacherWCoursesResponse;
 import com.tfip.lessonscheduler.dto.TeacherWithLeavesAndLessonsResponse;
 import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.exception.AppException;
@@ -24,8 +24,8 @@ public class TeacherServiceImpl implements TeacherService{
   }
 
   @Override
-  public List<TeacherWSubjectsResponse> getTeachersWithSubjects(Long managerId) {
-    return teacherRepository.findAllByManagerId(managerId).stream().map(teacherMapper::toTeacherWSubjectResponse).toList();
+  public List<TeacherWCoursesResponse> getTeachersWithCourses(Long managerId) {
+    return teacherRepository.findAllByManagerId(managerId).stream().map(teacherMapper::toTeacherWCourseResponse).toList();
   }
 
   @Override

@@ -62,9 +62,9 @@ public class Teacher {
 
   @ManyToMany(cascade = { CascadeType.REMOVE })
   @JoinTable(
-    name = "teachers_subjects", 
+    name = "teachers_courses", 
     joinColumns = { @JoinColumn(name = "teacher_id") }, 
-    inverseJoinColumns = { @JoinColumn(name = "subject_id") }
+    inverseJoinColumns = { @JoinColumn(name = "course_id") }
   )
-  private Set<Subject> subjects;
+  private Set<Course> courses;
 }

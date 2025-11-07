@@ -6,8 +6,8 @@ VALUES
 	('History'),
 	('Science');
 
-INSERT INTO subject 
-	(department_id,name,subject_code)
+INSERT INTO course
+	(department_id,name,course_code)
 VALUES
 	(1,'Programming Fundamentals','CS101'),
 	(1,'Object-Oriented Programming','CS102'),
@@ -33,8 +33,8 @@ VALUES
 	(1,1,'Grace','Hopper','grace.hopper@gmail.com'),
 	(1,1,'Linus','Torvalds','linus.torvalds@gmail.com');
 
-INSERT INTO teachers_subjects
-	(teacher_id,subject_id)
+INSERT INTO teachers_courses
+	(teacher_id,course_id)
 VALUES
 	(2,1),
 	(2,2),
@@ -53,7 +53,7 @@ VALUES
 	(4,4);
 
 INSERT INTO lesson 
-	(teacher_id,venue_id,subject_id,name,start_time,end_time,class_size)
+	(teacher_id,venue_id,course_id,name,start_time,end_time,class_size)
 VALUES 
 	(2,1,1,'lesson 1','2025-10-18 08:00:00','2025-10-18 10:00:00',10),
 	(3,1,1,'lesson 2','2025-10-18 08:00:00','2025-10-18 10:00:00',10),

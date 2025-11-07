@@ -33,10 +33,10 @@ public class Lesson {
   @Column(name = "description",length=1000)
   private String description;
 
-  @Column(name = "start_time",nullable=false,precision=0)
+  @Column(name = "start_time",nullable=false)
   private LocalDateTime startTime;
 
-  @Column(name = "end_time",nullable=false,precision=0)
+  @Column(name = "end_time",nullable=false)
   private LocalDateTime endTime;
 
   @Column(name = "class_size",nullable=false)
@@ -47,7 +47,7 @@ public class Lesson {
 
   //add teacher relationship
   //add venue relationship
-  //add subject relationship
+  //add course relationship
   @ManyToOne
   @JoinColumn(name = "teacher_id", referencedColumnName = "id",nullable=false)
   private Teacher teacher;
@@ -57,6 +57,6 @@ public class Lesson {
   private Venue venue;
 
   @ManyToOne
-  @JoinColumn(name = "subject_id", referencedColumnName = "id",nullable=false)
-  private Subject subject;
+  @JoinColumn(name = "course_id", referencedColumnName = "id",nullable=false)
+  private Course course;
 }

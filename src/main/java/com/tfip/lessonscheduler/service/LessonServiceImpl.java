@@ -60,7 +60,7 @@ public class LessonServiceImpl implements LessonService {
         for (Lesson lesson : conflictingLessons) {
             LocalDate lessonDate = lesson.getStartTime().toLocalDate();
             List<TeacherDto> availableTeachers =
-                    teacherRepository.findAllAvailableTeachersBySubjectAndNotOnLeave(lesson.getStartTime(), lesson.getEndTime(),lessonDate,lesson.getSubject().getId())
+                    teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(lesson.getStartTime(), lesson.getEndTime(),lessonDate,lesson.getCourse().getId())
                             .stream()
                             .map(teacherMapper::toTeacherDto)
                             .toList();
@@ -105,7 +105,7 @@ public class LessonServiceImpl implements LessonService {
         for (Lesson lesson : conflictingLessons) {
             LocalDate lessonDate = lesson.getStartTime().toLocalDate();
             List<Teacher> availableTeachersForLesson =
-                    teacherRepository.findAllAvailableTeachersBySubjectAndNotOnLeave(lesson.getStartTime(), lesson.getEndTime(),lessonDate,lesson.getSubject().getId());
+                    teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(lesson.getStartTime(), lesson.getEndTime(),lessonDate,lesson.getCourse().getId());
 
             for ( Teacher teacher : availableTeachersForLesson) {
                 //add all available teacher to availableTeacherIds

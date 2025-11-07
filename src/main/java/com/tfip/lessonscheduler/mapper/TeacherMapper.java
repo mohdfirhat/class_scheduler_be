@@ -2,7 +2,7 @@ package com.tfip.lessonscheduler.mapper;
 
 import com.tfip.lessonscheduler.dto.*;
 import com.tfip.lessonscheduler.entity.Lesson;
-import com.tfip.lessonscheduler.entity.Subject;
+import com.tfip.lessonscheduler.entity.Course;
 import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
 import org.springframework.stereotype.Component;
@@ -11,12 +11,12 @@ import java.util.Set;
 
 @Component
 public class TeacherMapper {
-    public TeacherWSubjectsResponse toTeacherWSubjectResponse(Teacher teacher) {
+    public TeacherWCoursesResponse toTeacherWCourseResponse(Teacher teacher) {
         if (teacher == null) {
             return null;
         }
 
-        TeacherWSubjectsResponse response = new TeacherWSubjectsResponse();
+        TeacherWCoursesResponse response = new TeacherWCoursesResponse();
 
         response.setId(teacher.getId());
         response.setFirstName(teacher.getFirstName());
@@ -24,15 +24,15 @@ public class TeacherMapper {
         response.setEmail(teacher.getEmail());
         response.setLeaveDays(teacher.getLeaveDays());
 
-        // Convert Set<Subject> → SubjectDto[]
-        Set<Subject> subjects = teacher.getSubjects();
-        if (subjects != null && !subjects.isEmpty()) {
-            SubjectDto[] subjectDtos = subjects.stream()
-                    .map(this::toSubjectDto)
-                    .toArray(SubjectDto[]::new);
-            response.setSubjects(subjectDtos);
+        // Convert Set<Course> → CourseDto[]
+        Set<Course> courses = teacher.getCourses();
+        if (courses != null && !courses.isEmpty()) {
+            CourseDto[] courseDtos = courses.stream()
+                    .map(this::toCourseDto)
+                    .toArray(CourseDto[]::new);
+            response.setCourses(courseDtos);
         } else {
-            response.setSubjects(new SubjectDto[0]);
+            response.setCourses(new CourseDto[0]);
         }
 
         return response;
@@ -67,7 +67,7 @@ public class TeacherMapper {
         response.setEmail(teacher.getEmail());
         response.setLeaveDays(teacher.getLeaveDays());
 
-        // Convert Set<TeacherLeave> → SubjectDto[]
+        // Convert Set<TeacherLeave> → CourseDto[]
         Set<TeacherLeave> leaves = teacher.getTeacherLeaves();
         if (leaves != null && !leaves.isEmpty()) {
             TeacherLeaveDto[] leaveDtos = leaves.stream()
@@ -94,7 +94,7 @@ public class TeacherMapper {
         response.setEmail(teacher.getEmail());
         response.setLeaveDays(teacher.getLeaveDays());
 
-        // Convert Set<TeacherLeave> → SubjectDto[]
+        // Convert Set<TeacherLeave> → CourseDto[]
         Set<TeacherLeave> leaves = teacher.getTeacherLeaves();
         if (leaves != null && !leaves.isEmpty()) {
             TeacherLeaveDto[] leaveDtos = leaves.stream()
@@ -105,7 +105,7 @@ public class TeacherMapper {
             response.setTeacherLeaves(new TeacherLeaveDto[0]);
         }
 
-        // Convert Set<Lesson> → SubjectDto[]
+        // Convert Set<Lesson> → CourseDto[]
         Set<Lesson> lesson = teacher.getLessons();
         if (lesson != null && !lesson.isEmpty()) {
             LessonDto[] lessonDtos = lesson.stream()
@@ -119,14 +119,14 @@ public class TeacherMapper {
         return response;
     }
 
-    private SubjectDto toSubjectDto(Subject subject) {
-        if (subject == null) {
+    private CourseDto toCourseDto(Course course) {
+        if (course == null) {
             return null;
         }
-        SubjectDto dto = new SubjectDto();
-        dto.setId(subject.getId());
-        dto.setName(subject.getName()); // adjust field names as per your Subject entity
-        dto.setSubjectCode(subject.getSubjectCode());
+        CourseDto dto = new CourseDto();
+        dto.setId(course.getId());
+        dto.setName(course.getName()); // adjust field names as per your Course entity
+        dto.setCourseCode(course.getCourseCode());
         return dto;
     }
 

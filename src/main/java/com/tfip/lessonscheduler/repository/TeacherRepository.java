@@ -20,7 +20,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
    *        has no lesson at that time(startTime endTime)
    *     </li>
    *     <li>
-   *        teaches that subject(=subjectId)
+   *        teaches that course(=courseId)
    *     </li>
    *     <li>
    *        did not take leave that day
@@ -29,14 +29,14 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
    * @param startTime start time of lesson
    * @param endTime end time of lesson
    * @param lessonDate date of lesson
-   * @param subjectId id of lesson's subject
+   * @param courseId id of lesson's course
    * @return list of available Teacher
    */
   @Query("""
     SELECT t
     FROM Teacher t
-    JOIN t.subjects s
-    WHERE s.id = :subjectId
+    JOIN t.courses s
+    WHERE s.id = :courseId
       AND t.manager.id IS NOT NULL
       AND NOT EXISTS (
           SELECT 1
@@ -54,10 +54,10 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
             AND tl.status = "approved"
       )
 """)
-List<Teacher> findAllAvailableTeachersBySubjectAndNotOnLeave(
+List<Teacher> findAllAvailableTeachersByCourseAndNotOnLeave(
         @Param("startTime") LocalDateTime startTime,
         @Param("endTime") LocalDateTime endTime,
         @Param("lessonDate") LocalDate lessonDate,
-        @Param("subjectId") Long subjectId
+        @Param("courseId") Long courseId
 );
 }

@@ -24,8 +24,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "subject")
-public class Subject {
+@Table(name = "course")
+public class Course {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
@@ -34,15 +34,15 @@ public class Subject {
   @Column(name = "name",nullable=false)
   private String name;
 
-  @Column(name = "subject_code", nullable = false, columnDefinition = "CHAR(5)")
-  private String subjectCode;
+  @Column(name = "course_code", nullable = false, columnDefinition = "CHAR(5)")
+  private String courseCode;
 
   @ManyToOne(cascade={CascadeType.REMOVE})
   @JsonIgnore
   @JoinColumn(name = "department_id", referencedColumnName = "id",nullable=false)
   private Department department;
 
-  @ManyToMany(mappedBy="subjects")
+  @ManyToMany(mappedBy="courses")
   @JsonIgnore
     Set<Teacher> teachers;
 

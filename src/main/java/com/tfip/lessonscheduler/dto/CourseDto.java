@@ -7,11 +7,8 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherWSubjectsResponse {
+public class CourseDto {
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private Integer leaveDays;
-    private SubjectDto[] subjects;
+    private String name;
+    private String courseCode;
 }
