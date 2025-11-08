@@ -1,5 +1,6 @@
 package com.tfip.lessonscheduler.dto;
 
+import com.tfip.lessonscheduler.entity.TeacherLeaveStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,6 @@ public class TeacherLeaveWTeacherResponse {
     private Long id;
     private LocalDate startDate;
     private LocalDate  endDate;
-    private String status;
+    private TeacherLeaveStatus status;
     private TeacherDto teacher;
 }

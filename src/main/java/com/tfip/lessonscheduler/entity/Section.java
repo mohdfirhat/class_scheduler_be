@@ -42,12 +42,19 @@ public class Section {
   @Column(name = "class_size",nullable=false)
   private Integer classSize;
 
-  @Column(name = "status",nullable=false,columnDefinition="VARCHAR(20) DEFAULT 'pending'")
-  private String status = "pending";
+//  @Column(name = "status",nullable=false,columnDefinition="VARCHAR(20) DEFAULT 'pending'")
+//  private String status = "pending";
 
+  //add SectionStatus relationship
   //add teacher relationship
   //add venue relationship
   //add course relationship
+  //NEED TO IMPLEMENT DEFAULT VALUE pending on INSERT Section
+  @ManyToOne
+  @JoinColumn(name = "section_status_id", referencedColumnName = "id",
+          nullable=false)
+  private SectionStatus status;
+
   @ManyToOne
   @JoinColumn(name = "teacher_id", referencedColumnName = "id",nullable=false)
   private Teacher teacher;

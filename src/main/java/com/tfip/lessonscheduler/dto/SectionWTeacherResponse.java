@@ -1,5 +1,6 @@
 package com.tfip.lessonscheduler.dto;
 
+import com.tfip.lessonscheduler.entity.SectionStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,6 @@ public class SectionWTeacherResponse {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer classSize;
-    private String status;
+    private SectionStatus status;
     private TeacherDto teacher;
 }

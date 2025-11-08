@@ -52,17 +52,31 @@ VALUES
 	(4,3),
 	(4,4);
 
+INSERT INTO section_status
+    (id,type)
+VALUES
+    (1,'pending'),
+    (2,'approved'),
+    (3,'rejected');
+
 INSERT INTO section
-	(teacher_id,venue_id,course_id,name,start_time,end_time,class_size)
+	(teacher_id,venue_id,course_id,section_status_id,name,start_time,end_time,class_size)
 VALUES 
-	(2,1,1,'lesson 1','2025-10-18 08:00:00','2025-10-18 10:00:00',10),
-	(3,1,1,'lesson 2','2025-10-18 08:00:00','2025-10-18 10:00:00',10),
-	(2,1,1,'lesson 3','2025-10-18 10:00:00','2025-10-18 12:00:00',10),
-	(3,1,1,'lesson 4','2025-10-18 13:00:00','2025-10-18 15:00:00',10),
-	(4,1,1,'lesson 5','2025-10-18 15:00:00','2025-10-18 17:00:00',10);
+	(2,1,1,1,'lesson 1','2025-10-18 08:00:00','2025-10-18 10:00:00',10),
+	(3,1,1,1,'lesson 2','2025-10-18 08:00:00','2025-10-18 10:00:00',10),
+	(2,1,1,1,'lesson 3','2025-10-18 10:00:00','2025-10-18 12:00:00',10),
+	(3,1,1,1,'lesson 4','2025-10-18 13:00:00','2025-10-18 15:00:00',10),
+	(4,1,1,1,'lesson 5','2025-10-18 15:00:00','2025-10-18 17:00:00',10);
+
+INSERT INTO teacher_leave_status
+(id,type)
+VALUES
+    (1,'pending'),
+    (2,'approved'),
+    (3,'rejected');
 
 INSERT INTO teacher_leave
-    (teacher_id,start_date,end_date,status)
+    (teacher_id,teacher_leave_status_id,start_date,end_date)
 VALUES
-    (2,'2025-10-18','2025-10-18','pending'),
-    (3,'2025-10-18','2025-10-18','pending');
+    (2,1,'2025-10-18','2025-10-18'),
+    (3,1,'2025-10-18','2025-10-18');

@@ -33,8 +33,12 @@ public class TeacherLeave {
   @Column(name = "end_date",nullable=false)
   private LocalDate  endDate;
 
-  @Column(name = "status",nullable=false,columnDefinition="VARCHAR(20) DEFAULT 'pending'")
-  private String status = "pending";
+//  @Column(name = "status",nullable=false,columnDefinition="VARCHAR(20) DEFAULT 'pending'")
+//  private String status = "pending";
+  @ManyToOne
+  @JoinColumn(name = "teacher_leave_status_id", referencedColumnName = "id",nullable=false)
+  private TeacherLeaveStatus status;
+
 
   @ManyToOne
   @JoinColumn(name = "teacher_id", referencedColumnName = "id",nullable=false)

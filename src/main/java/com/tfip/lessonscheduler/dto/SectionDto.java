@@ -2,6 +2,7 @@ package com.tfip.lessonscheduler.dto;
 
 import java.time.LocalDateTime;
 
+import com.tfip.lessonscheduler.entity.SectionStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,5 @@ public class SectionDto {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer classSize;
-    private String status;
-
+    private SectionStatus status;
 }

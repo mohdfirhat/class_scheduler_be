@@ -23,7 +23,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
    *        teaches that course(=courseId)
    *     </li>
    *     <li>
-   *        did not take leave that day
+   *        did not take leave that day(no approved leave for the day)
    *     </li>
    * </ul>
    * @param startTime start time of section
@@ -51,7 +51,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
           WHERE tl.teacher.id = t.id
             AND tl.startDate <= :sectionDate
             AND tl.endDate   >= :sectionDate
-            AND tl.status = "approved"
+            AND tl.status.type = "approved"
       )
 """)
 List<Teacher> findAllAvailableTeachersByCourseAndNotOnLeave(
