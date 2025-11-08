@@ -59,14 +59,22 @@ VALUES
     (2,'approved'),
     (3,'rejected');
 
+INSERT INTO timeslot
+    (id,start_time,end_time)
+VALUES
+    (1,'08:00:00','10:00:00'),
+    (2,'10:00:00','12:00:00'),
+    (3,'13:00:00','15:00:00'),
+    (4,'15:00:00','17:00:00');
+
 INSERT INTO section
-	(teacher_id,venue_id,course_id,section_status_id,name,start_time,end_time,class_size)
+	(teacher_id,venue_id,course_id,section_status_id,timeslot_id,name,date,class_size)
 VALUES 
-	(2,1,1,1,'lesson 1','2025-10-18 08:00:00','2025-10-18 10:00:00',10),
-	(3,1,1,1,'lesson 2','2025-10-18 08:00:00','2025-10-18 10:00:00',10),
-	(2,1,1,1,'lesson 3','2025-10-18 10:00:00','2025-10-18 12:00:00',10),
-	(3,1,1,1,'lesson 4','2025-10-18 13:00:00','2025-10-18 15:00:00',10),
-	(4,1,1,1,'lesson 5','2025-10-18 15:00:00','2025-10-18 17:00:00',10);
+	(2,1,1,1,1,'lesson 1','2025-10-18',10),
+	(3,1,1,1,1,'lesson 2','2025-10-18',10),
+	(2,1,1,1,2,'lesson 3','2025-10-18',10),
+	(3,1,1,1,3,'lesson 4','2025-10-18', 10),
+	(4,1,1,1,4,'lesson 5','2025-10-18', 10);
 
 INSERT INTO teacher_leave_status
 (id,type)
@@ -79,4 +87,4 @@ INSERT INTO teacher_leave
     (teacher_id,teacher_leave_status_id,start_date,end_date)
 VALUES
     (2,1,'2025-10-18','2025-10-18'),
-    (3,1,'2025-10-18','2025-10-18');
+    (3,2,'2025-10-18','2025-10-18');

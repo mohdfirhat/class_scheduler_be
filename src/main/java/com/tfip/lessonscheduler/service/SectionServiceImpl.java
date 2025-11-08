@@ -15,7 +15,6 @@ import com.tfip.lessonscheduler.repository.TeacherRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -46,21 +45,20 @@ public class SectionServiceImpl implements SectionService {
         TeacherLeave leave = teacherLeaveRepository.findById(leaveId)
                 .orElseThrow(() -> new AppException("Leave with id " + leaveId + " not found"));
 
-        LocalDateTime start = leave.getStartDate().atStartOfDay();
-        LocalDateTime end = leave.getEndDate().atTime(23, 59, 59);
+//        LocalDateTime start = leave.getStartDate().atStartOfDay();
+//        LocalDateTime end = leave.getEndDate().atTime(23, 59, 59);
 
         // Get all section within leave period
         List<Section> conflictingSections =
-                sectionRepository.findByTeacherIdAndStartTimeBetween(leave.getTeacher().getId(),start,end);
+                sectionRepository.findByTeacherIdAndDateBetween(leave.getTeacher().getId(),leave.getStartDate(),leave.getEndDate());
 
         // Create response object
         List<SectionWAvailableTeachersResponse> responses = new ArrayList<>();
 
         // Find available teachers for each section
         for (Section section : conflictingSections) {
-            LocalDate sectionDate = section.getStartTime().toLocalDate();
             List<TeacherDto> availableTeachers =
-                    teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(section.getStartTime(), section.getEndTime(),sectionDate,section.getCourse().getId())
+                    teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(section.getDate(),section.getTimeslot().getId(),section.getCourse().getId())
                             .stream()
                             .map(teacherMapper::toTeacherDto)
                             .toList();
@@ -70,8 +68,8 @@ public class SectionServiceImpl implements SectionService {
                         section.getId(),
                         section.getName(),
                         section.getDescription(),
-                        section.getStartTime(),
-                        section.getEndTime(),
+                        section.getDate(),
+                        section.getTimeslot(),
                         section.getClassSize(),
                         section.getStatus(),
                         availableTeachers
@@ -89,12 +87,9 @@ public class SectionServiceImpl implements SectionService {
         TeacherLeave leave = teacherLeaveRepository.findById(leaveId)
                 .orElseThrow(() -> new AppException("Leave with id " + leaveId + " not found"));
 
-        LocalDateTime start = leave.getStartDate().atStartOfDay();
-        LocalDateTime end = leave.getEndDate().atTime(23, 59, 59);
-
         // Get all section within leave period
         List<Section> conflictingSections =
-                sectionRepository.findByTeacherIdAndStartTimeBetween(leave.getTeacher().getId(),start,end);
+                sectionRepository.findByTeacherIdAndDateBetween(leave.getTeacher().getId(),leave.getStartDate(),leave.getEndDate());
 
         // Create response object
         Set<Long> availableTeacherIds = new HashSet<>();
@@ -103,9 +98,8 @@ public class SectionServiceImpl implements SectionService {
 
         // Find available teachers for each section
         for (Section section : conflictingSections) {
-            LocalDate sectionDate = section.getStartTime().toLocalDate();
             List<Teacher> availableTeachersForSection =
-                    teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(section.getStartTime(), section.getEndTime(),sectionDate,section.getCourse().getId());
+                    teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(section.getDate(), section.getTimeslot().getId(),section.getCourse().getId());
 
             for ( Teacher teacher : availableTeachersForSection) {
                 //add all available teacher to availableTeacherIds
@@ -114,11 +108,11 @@ public class SectionServiceImpl implements SectionService {
         }
 
         // get 3 months section from start leave
-        LocalDateTime startMonth = leave.getStartDate().minusMonths(1).atStartOfDay();
-        LocalDateTime endMonth = leave.getStartDate().plusMonths(2).atTime(23, 59, 59);
+        LocalDate startMonth = leave.getStartDate().minusMonths(1);
+        LocalDate endMonth = leave.getStartDate().plusMonths(2);
 
 
-        return sectionRepository.findByTeacherIdInAndStartTimeBetween(availableTeacherIds,startMonth,endMonth).stream()
+        return sectionRepository.findByTeacherIdInAndDateBetween(availableTeacherIds,startMonth,endMonth).stream()
                 .map(sectionMapper::toSectionWTeacherResponse)
                 .toList();
     }

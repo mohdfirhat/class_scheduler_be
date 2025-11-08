@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TeacherLeaveMapper {
+
     public TeacherLeaveDto toTeacherLeave(TeacherLeave leave) {
         return new TeacherLeaveDto(
                 leave.getId(),
@@ -34,11 +35,15 @@ public class TeacherLeaveMapper {
         return response;
     }
 
+    // ---------- Helper Methods ----------
+
     public TeacherDto toTeacherDto(Teacher teacher) {
         if (teacher == null) {
             return null;
         }
+
         TeacherDto dto = new TeacherDto();
+
         dto.setId(teacher.getId());
         dto.setFirstName(teacher.getFirstName());
         dto.setLastName(teacher.getLastName());

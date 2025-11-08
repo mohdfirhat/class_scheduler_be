@@ -11,6 +11,7 @@ import java.util.Set;
 
 @Component
 public class TeacherMapper {
+
     public TeacherWCoursesResponse toTeacherWCourseResponse(Teacher teacher) {
         if (teacher == null) {
             return null;
@@ -119,6 +120,8 @@ public class TeacherMapper {
         return response;
     }
 
+    // ---------- Helper Methods ----------
+
     private CourseDto toCourseDto(Course course) {
         if (course == null) {
             return null;
@@ -150,8 +153,8 @@ public class TeacherMapper {
         dto.setId(lesson.getId());
         dto.setName(lesson.getName());
         dto.setDescription(lesson.getDescription());
-        dto.setStartTime(lesson.getStartTime());
-        dto.setEndTime(lesson.getEndTime());
+        dto.setDate(lesson.getDate());
+        dto.setTimeslot(lesson.getTimeslot());
         dto.setClassSize(lesson.getClassSize());
         dto.setStatus(lesson.getStatus());
 

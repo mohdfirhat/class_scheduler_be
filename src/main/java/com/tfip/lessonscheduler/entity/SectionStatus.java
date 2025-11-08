@@ -18,7 +18,7 @@ public class SectionStatus {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "type",nullable=false,length=20)
+    @Column(name = "type",nullable=false,length=20,unique=true)
     private String type;
 
 }

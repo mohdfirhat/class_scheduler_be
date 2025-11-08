@@ -1,7 +1,6 @@
 package com.tfip.lessonscheduler.repository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,17 +16,16 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
    * Get available teacher that fit this description
    * <ul>
    *     <li>
-   *        has no section at that time(startTime endTime)
+   *        has no section at that timeslot(no section intersect timeslot)
    *     </li>
    *     <li>
-   *        teaches that course(=courseId)
+   *        teaches that course(same courseId)
    *     </li>
    *     <li>
-   *        did not take leave that day(no approved leave for the day)
+   *        did not take leave that day(no approved leave for the covering day)
    *     </li>
    * </ul>
-   * @param startTime start time of section
-   * @param endTime end time of section
+   * @param timeslotId id of section's timeslot
    * @param sectionDate date of section
    * @param courseId id of section's course
    * @return list of available Teacher
@@ -35,15 +33,15 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
   @Query("""
     SELECT t
     FROM Teacher t
-    JOIN t.courses s
-    WHERE s.id = :courseId
+    JOIN t.courses c
+    WHERE c.id = :courseId
       AND t.manager.id IS NOT NULL
       AND NOT EXISTS (
           SELECT 1
-          FROM Section l
-          WHERE l.teacher.id = t.id
-            AND l.startTime < :endTime
-            AND l.endTime   > :startTime
+          FROM Section s
+          WHERE s.teacher.id = t.id
+            AND s.date = :sectionDate
+            AND s.timeslot.id = :timeslotId
       )
       AND NOT EXISTS (
           SELECT 1
@@ -55,9 +53,8 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
       )
 """)
 List<Teacher> findAllAvailableTeachersByCourseAndNotOnLeave(
-        @Param("startTime") LocalDateTime startTime,
-        @Param("endTime") LocalDateTime endTime,
         @Param("sectionDate") LocalDate sectionDate,
+        @Param("timeslotId") Long timeslotId,
         @Param("courseId") Long courseId
 );
 }

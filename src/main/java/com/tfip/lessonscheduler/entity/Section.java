@@ -1,6 +1,6 @@
 package com.tfip.lessonscheduler.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,27 +33,22 @@ public class Section {
   @Column(name = "description",length=1000)
   private String description;
 
-  @Column(name = "start_time",nullable=false)
-  private LocalDateTime startTime;
-
-  @Column(name = "end_time",nullable=false)
-  private LocalDateTime endTime;
+  @Column(name = "date",nullable=false)
+  private LocalDate date;
 
   @Column(name = "class_size",nullable=false)
   private Integer classSize;
 
-//  @Column(name = "status",nullable=false,columnDefinition="VARCHAR(20) DEFAULT 'pending'")
-//  private String status = "pending";
-
-  //add SectionStatus relationship
-  //add teacher relationship
-  //add venue relationship
-  //add course relationship
   //NEED TO IMPLEMENT DEFAULT VALUE pending on INSERT Section
   @ManyToOne
   @JoinColumn(name = "section_status_id", referencedColumnName = "id",
           nullable=false)
   private SectionStatus status;
+
+  @ManyToOne
+  @JoinColumn(name = "timeslot_id", referencedColumnName = "id",
+          nullable=false)
+  private Timeslot timeslot;
 
   @ManyToOne
   @JoinColumn(name = "teacher_id", referencedColumnName = "id",nullable=false)

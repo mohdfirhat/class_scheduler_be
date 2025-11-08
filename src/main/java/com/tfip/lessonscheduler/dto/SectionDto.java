@@ -1,8 +1,9 @@
 package com.tfip.lessonscheduler.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.tfip.lessonscheduler.entity.SectionStatus;
+import com.tfip.lessonscheduler.entity.Timeslot;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -14,8 +15,8 @@ public class SectionDto {
     private Long id;
     private String name;
     private String description;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalDate date;
+    private Timeslot timeslot;
     private Integer classSize;
     private SectionStatus status;
 }

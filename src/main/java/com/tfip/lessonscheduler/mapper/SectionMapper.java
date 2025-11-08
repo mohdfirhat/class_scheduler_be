@@ -15,8 +15,8 @@ public class SectionMapper {
                 section.getId(),
                 section.getName(),
                 section.getDescription(),
-                section.getStartTime(),
-                section.getEndTime(),
+                section.getDate(),
+                section.getTimeslot(),
                 section.getClassSize(),
                 section.getStatus()
         );
@@ -32,8 +32,8 @@ public class SectionMapper {
         response.setId(section.getId());
         response.setName(section.getName());
         response.setDescription(section.getDescription());
-        response.setStartTime(section.getStartTime());
-        response.setEndTime(section.getEndTime());
+        response.setDate(section.getDate());
+        response.setTimeslot(section.getTimeslot());
         response.setClassSize(section.getClassSize());
         response.setStatus(section.getStatus());
         response.setTeacher(this.toTeacherDto(section.getTeacher()));
@@ -41,11 +41,15 @@ public class SectionMapper {
         return response;
     }
 
+    // ---------- Helper Methods ----------
+
     public TeacherDto toTeacherDto(Teacher teacher) {
         if (teacher == null) {
             return null;
         }
+
         TeacherDto dto = new TeacherDto();
+
         dto.setId(teacher.getId());
         dto.setFirstName(teacher.getFirstName());
         dto.setLastName(teacher.getLastName());
