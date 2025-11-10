@@ -1,12 +1,13 @@
 package com.tfip.lessonscheduler.service;
 
-import com.tfip.lessonscheduler.dto.SectionWTeacherResponse;
-import com.tfip.lessonscheduler.dto.SectionWAvailableTeachersResponse;
+import com.tfip.lessonscheduler.dto.SectionWCourseAndVenueAndTeacherResponse;
+import com.tfip.lessonscheduler.dto.SectionWCourseAndAvailableTeachersResponse;
 import com.tfip.lessonscheduler.dto.TeacherDto;
 import com.tfip.lessonscheduler.entity.Section;
 import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
 import com.tfip.lessonscheduler.exception.AppException;
+import com.tfip.lessonscheduler.mapper.CourseMapper;
 import com.tfip.lessonscheduler.mapper.SectionMapper;
 import com.tfip.lessonscheduler.mapper.TeacherMapper;
 import com.tfip.lessonscheduler.repository.SectionRepository;
@@ -28,18 +29,20 @@ public class SectionServiceImpl implements SectionService {
     private TeacherRepository teacherRepository;
     private TeacherMapper teacherMapper;
     private SectionMapper sectionMapper;
+    private CourseMapper courseMapper;
 
-    public SectionServiceImpl(SectionRepository sectionRepository,TeacherLeaveRepository teacherLeaveRepository,TeacherRepository teacherRepository, TeacherMapper teacherMapper, SectionMapper sectionMapper) {
+    public SectionServiceImpl(SectionRepository sectionRepository,TeacherLeaveRepository teacherLeaveRepository,TeacherRepository teacherRepository, TeacherMapper teacherMapper, SectionMapper sectionMapper,CourseMapper courseMapper) {
         this.sectionRepository = sectionRepository;
         this.teacherLeaveRepository = teacherLeaveRepository;
         this.teacherRepository = teacherRepository;
         this.teacherMapper = teacherMapper;
         this.sectionMapper = sectionMapper;
+        this.courseMapper = courseMapper;
     }
 
 
     @Override
-    public List<SectionWAvailableTeachersResponse> getSectionsWithAvailableTeachers(Long leaveId) {
+    public List<SectionWCourseAndAvailableTeachersResponse> getSectionsWithAvailableTeachers(Long leaveId) {
 
         // Get specific leave to resolve leave-section conflict
         TeacherLeave leave = teacherLeaveRepository.findById(leaveId)
@@ -53,7 +56,7 @@ public class SectionServiceImpl implements SectionService {
                 sectionRepository.findByTeacherIdAndDateBetween(leave.getTeacher().getId(),leave.getStartDate(),leave.getEndDate());
 
         // Create response object
-        List<SectionWAvailableTeachersResponse> responses = new ArrayList<>();
+        List<SectionWCourseAndAvailableTeachersResponse> responses = new ArrayList<>();
 
         // Find available teachers for each section
         for (Section section : conflictingSections) {
@@ -63,8 +66,8 @@ public class SectionServiceImpl implements SectionService {
                             .map(teacherMapper::toTeacherDto)
                             .toList();
 
-            SectionWAvailableTeachersResponse res =
-                    new SectionWAvailableTeachersResponse(
+            SectionWCourseAndAvailableTeachersResponse res =
+                    new SectionWCourseAndAvailableTeachersResponse(
                         section.getId(),
                         section.getName(),
                         section.getDescription(),
@@ -72,6 +75,7 @@ public class SectionServiceImpl implements SectionService {
                         section.getTimeslot(),
                         section.getClassSize(),
                         section.getStatus(),
+                        courseMapper.toCourseDto(section.getCourse()),
                         availableTeachers
                     );
 
@@ -82,7 +86,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public List<SectionWTeacherResponse> getSectionsOfAllTeachersInvolved(Long leaveId) {
+    public List<SectionWCourseAndVenueAndTeacherResponse> getSectionsOfAllTeachersInvolved(Long leaveId) {
         // Get specific leave to resolve leave-section conflict
         TeacherLeave leave = teacherLeaveRepository.findById(leaveId)
                 .orElseThrow(() -> new AppException("Leave with id " + leaveId + " not found"));
@@ -113,7 +117,7 @@ public class SectionServiceImpl implements SectionService {
 
 
         return sectionRepository.findByTeacherIdInAndDateBetween(availableTeacherIds,startMonth,endMonth).stream()
-                .map(sectionMapper::toSectionWTeacherResponse)
+                .map(sectionMapper::toSectionWCourseAndVenueAndTeacherResponse)
                 .toList();
     }
 }

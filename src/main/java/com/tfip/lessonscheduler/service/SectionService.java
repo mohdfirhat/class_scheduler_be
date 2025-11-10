@@ -1,13 +1,13 @@
 package com.tfip.lessonscheduler.service;
 
-import com.tfip.lessonscheduler.dto.SectionWTeacherResponse;
-import com.tfip.lessonscheduler.dto.SectionWAvailableTeachersResponse;
+import com.tfip.lessonscheduler.dto.SectionWCourseAndVenueAndTeacherResponse;
+import com.tfip.lessonscheduler.dto.SectionWCourseAndAvailableTeachersResponse;
 
 import java.util.List;
 
 public interface SectionService {
-    List<SectionWAvailableTeachersResponse> getSectionsWithAvailableTeachers(Long leaveId);
+    List<SectionWCourseAndAvailableTeachersResponse> getSectionsWithAvailableTeachers(Long leaveId);
 
-    List<SectionWTeacherResponse> getSectionsOfAllTeachersInvolved(Long leaveId);
+    List<SectionWCourseAndVenueAndTeacherResponse> getSectionsOfAllTeachersInvolved(Long leaveId);
 
 }

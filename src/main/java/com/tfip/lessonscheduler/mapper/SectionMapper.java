@@ -1,8 +1,10 @@
 package com.tfip.lessonscheduler.mapper;
 
+import com.tfip.lessonscheduler.dto.CourseDto;
 import com.tfip.lessonscheduler.dto.SectionDto;
-import com.tfip.lessonscheduler.dto.SectionWTeacherResponse;
+import com.tfip.lessonscheduler.dto.SectionWCourseAndVenueAndTeacherResponse;
 import com.tfip.lessonscheduler.dto.TeacherDto;
+import com.tfip.lessonscheduler.entity.Course;
 import com.tfip.lessonscheduler.entity.Section;
 import com.tfip.lessonscheduler.entity.Teacher;
 import org.springframework.stereotype.Component;
@@ -22,12 +24,12 @@ public class SectionMapper {
         );
     }
 
-    public SectionWTeacherResponse toSectionWTeacherResponse(Section section) {
+    public SectionWCourseAndVenueAndTeacherResponse toSectionWCourseAndVenueAndTeacherResponse(Section section) {
         if (section == null) {
             return null;
         }
 
-        SectionWTeacherResponse response = new SectionWTeacherResponse();
+        SectionWCourseAndVenueAndTeacherResponse response = new SectionWCourseAndVenueAndTeacherResponse();
 
         response.setId(section.getId());
         response.setName(section.getName());
@@ -36,6 +38,8 @@ public class SectionMapper {
         response.setTimeslot(section.getTimeslot());
         response.setClassSize(section.getClassSize());
         response.setStatus(section.getStatus());
+        response.setCourse(this.toCourseDto(section.getCourse()));
+        response.setVenue(section.getVenue());
         response.setTeacher(this.toTeacherDto(section.getTeacher()));
 
         return response;
@@ -57,5 +61,12 @@ public class SectionMapper {
         dto.setLeaveDays(teacher.getLeaveDays());
 
         return dto;
+    }
+    public CourseDto toCourseDto(Course course) {
+        return new CourseDto(
+                course.getId(),
+                course.getName(),
+                course.getCourseCode()
+        );
     }
 }
