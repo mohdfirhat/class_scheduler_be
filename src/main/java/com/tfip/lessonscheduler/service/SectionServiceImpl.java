@@ -39,7 +39,7 @@ public class SectionServiceImpl implements SectionService {
 
 
     @Override
-    public List<SectionWAvailableTeachersResponse> getAllSectionsWithAvailableTeachers(Long leaveId) {
+    public List<SectionWAvailableTeachersResponse> getSectionsWithAvailableTeachers(Long leaveId) {
 
         // Get specific leave to resolve leave-section conflict
         TeacherLeave leave = teacherLeaveRepository.findById(leaveId)
@@ -82,7 +82,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public List<SectionWTeacherResponse> getAllSectionsOfAllTeachersInvolved(Long leaveId) {
+    public List<SectionWTeacherResponse> getSectionsOfAllTeachersInvolved(Long leaveId) {
         // Get specific leave to resolve leave-section conflict
         TeacherLeave leave = teacherLeaveRepository.findById(leaveId)
                 .orElseThrow(() -> new AppException("Leave with id " + leaveId + " not found"));

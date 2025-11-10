@@ -35,7 +35,7 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
     }
 
     @Override
-    public List<TeacherLeaveWTeacherResponse> getAllLeavesOfAllTeachersInvolved(Long leaveId) {
+    public List<TeacherLeaveWTeacherResponse> getLeavesOfAllTeachersInvolved(Long leaveId) {
         // Get specific leave to resolve leave-schedule conflict
         TeacherLeave leave = leaveRepository.findById(leaveId)
                 .orElseThrow(() -> new AppException("Leave with id " + leaveId + " not found"));
@@ -69,5 +69,12 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
         return leaveRepository.findByTeacherIdInAndStartDateBetween(availableTeacherIds,startMonth,endMonth).stream()
                 .map(teacherLeaveMapper::toTeacherLeaveWTeacherResponse)
                 .toList();
+    }
+
+    @Override
+    public TeacherLeaveWTeacherResponse getByIdWTeacher(Long leaveId) {
+        TeacherLeave leave = leaveRepository.findById(leaveId).orElseThrow(() -> new AppException("Leave with id " + leaveId + " not found"));
+
+        return teacherLeaveMapper.toTeacherLeaveWTeacherResponse(leave);
     }
 }

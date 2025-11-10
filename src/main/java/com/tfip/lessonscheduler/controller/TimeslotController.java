@@ -21,7 +21,7 @@ public class TimeslotController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Timeslot>> getAllTimeslots() {
-        return new ResponseEntity<>(timeslotService.getAllTimeslots(), HttpStatus.OK);
+    public ResponseEntity<List<Timeslot>> getTimeslots() {
+        return new ResponseEntity<>(timeslotService.getTimeslots(), HttpStatus.OK);
     }
 }

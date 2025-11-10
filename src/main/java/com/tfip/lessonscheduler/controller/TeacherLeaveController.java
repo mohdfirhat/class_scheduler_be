@@ -20,9 +20,17 @@ public class TeacherLeaveController {
         this.teacherLeaveService = teacherLeaveService;
     }
 
+    @GetMapping("{leaveId}/teachers")
+    public ResponseEntity<TeacherLeaveWTeacherResponse> getByIdWTeacher(@PathVariable Long leaveId) {
+        return new ResponseEntity<>(teacherLeaveService.getByIdWTeacher(leaveId),
+                HttpStatus.OK);
+    }
+
+
+
     @GetMapping("conflict_leave/{leaveId}/all_leaves")
-    public ResponseEntity<List<TeacherLeaveWTeacherResponse>> getAllLeavesOfAllTeachersInvolved(@PathVariable Long leaveId) {
-        return new ResponseEntity<>(teacherLeaveService.getAllLeavesOfAllTeachersInvolved(leaveId),
+    public ResponseEntity<List<TeacherLeaveWTeacherResponse>> getLeavesOfAllTeachersInvolved(@PathVariable Long leaveId) {
+        return new ResponseEntity<>(teacherLeaveService.getLeavesOfAllTeachersInvolved(leaveId),
                 HttpStatus.OK);
     }
 

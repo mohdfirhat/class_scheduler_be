@@ -15,7 +15,7 @@ public class TimeslotServiceImpl implements TimeslotService {
     }
 
     @Override
-    public List<Timeslot> getAllTimeslots() {
+    public List<Timeslot> getTimeslots() {
         return timeslotRepository.findAll();
     }
 }

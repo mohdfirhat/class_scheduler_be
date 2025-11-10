@@ -22,7 +22,7 @@ public class CourseController {
     }
 
     @GetMapping("{departmentId}")
-    public ResponseEntity<List<CourseDto>> getAllCoursesByDepartmentId(@PathVariable Long departmentId) {
-        return new ResponseEntity<>(courseService.getAllCourseByDepartmentId(departmentId), HttpStatus.OK);
+    public ResponseEntity<List<CourseDto>> getCoursesByDepartmentId(@PathVariable Long departmentId) {
+        return new ResponseEntity<>(courseService.getCoursesByDepartmentId(departmentId), HttpStatus.OK);
     }
 }

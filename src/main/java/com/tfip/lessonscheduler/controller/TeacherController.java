@@ -26,12 +26,12 @@ public class TeacherController {
   }
 
   @GetMapping("{managerId}/courses")
-  public ResponseEntity<List<TeacherWCoursesAndDepartmentResponse>> getAllTeacherWithCoursesAndDepartment(@PathVariable Long managerId) {
+  public ResponseEntity<List<TeacherWCoursesAndDepartmentResponse>> getTeachersWithCoursesAndDepartment(@PathVariable Long managerId) {
       return new ResponseEntity<>(teacherService.getTeachersWithCoursesAndDepartment(managerId), HttpStatus.OK);
   }
 
   @GetMapping("{managerId}/leaves")
-  public ResponseEntity<List<TeacherWLeavesResponse>> getAllTeacherWithLeaves(@PathVariable Long managerId) {
+  public ResponseEntity<List<TeacherWLeavesResponse>> getTeachersWithLeaves(@PathVariable Long managerId) {
     return new ResponseEntity<>(teacherService.getTeachersWithLeaves(managerId), HttpStatus.OK);
   }
 

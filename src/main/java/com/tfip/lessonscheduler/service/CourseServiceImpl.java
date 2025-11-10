@@ -20,7 +20,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDto> getAllCourseByDepartmentId(Long departmentId) {
+    public List<CourseDto> getCoursesByDepartmentId(Long departmentId) {
         return courseRepository.findAllByDepartmentId(departmentId).stream().map(courseMapper::toCourseDto).collect(Collectors.toList());
     }
 }

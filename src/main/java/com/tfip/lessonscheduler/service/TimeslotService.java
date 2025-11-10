@@ -6,5 +6,5 @@ import com.tfip.lessonscheduler.entity.Timeslot;
 import java.util.List;
 
 public interface TimeslotService {
-    List<Timeslot> getAllTimeslots();
+    List<Timeslot> getTimeslots();
 }

@@ -24,12 +24,12 @@ public class SectionController {
 
     @GetMapping("conflict_leave/{leaveId}/available_teachers")
     public ResponseEntity<List<SectionWAvailableTeachersResponse>> getSectionsWithAvailableTeachers(@PathVariable Long leaveId) {
-        return new ResponseEntity<>(sectionService.getAllSectionsWithAvailableTeachers(leaveId), HttpStatus.OK);
+        return new ResponseEntity<>(sectionService.getSectionsWithAvailableTeachers(leaveId), HttpStatus.OK);
     }
 
     @GetMapping("conflict_leave/{leaveId}/all_sections")
-    public ResponseEntity<List<SectionWTeacherResponse>> getAllSectionsOfAllTeachersInvolved(@PathVariable Long leaveId) {
-        return new ResponseEntity<>(sectionService.getAllSectionsOfAllTeachersInvolved(leaveId), HttpStatus.OK);
+    public ResponseEntity<List<SectionWTeacherResponse>> getSectionsOfAllTeachersInvolved(@PathVariable Long leaveId) {
+        return new ResponseEntity<>(sectionService.getSectionsOfAllTeachersInvolved(leaveId), HttpStatus.OK);
     }
 
 }

@@ -6,8 +6,8 @@ import com.tfip.lessonscheduler.dto.SectionWAvailableTeachersResponse;
 import java.util.List;
 
 public interface SectionService {
-    List<SectionWAvailableTeachersResponse> getAllSectionsWithAvailableTeachers(Long leaveId);
+    List<SectionWAvailableTeachersResponse> getSectionsWithAvailableTeachers(Long leaveId);
 
-    List<SectionWTeacherResponse> getAllSectionsOfAllTeachersInvolved(Long leaveId);
+    List<SectionWTeacherResponse> getSectionsOfAllTeachersInvolved(Long leaveId);
 
 }
