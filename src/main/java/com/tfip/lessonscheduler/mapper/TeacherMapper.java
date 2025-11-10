@@ -12,18 +12,19 @@ import java.util.Set;
 @Component
 public class TeacherMapper {
 
-    public TeacherWCoursesResponse toTeacherWCourseResponse(Teacher teacher) {
+    public TeacherWCoursesAndDepartmentResponse toTeacherWCourseAndDepartmentResponse(Teacher teacher) {
         if (teacher == null) {
             return null;
         }
 
-        TeacherWCoursesResponse response = new TeacherWCoursesResponse();
+        TeacherWCoursesAndDepartmentResponse response = new TeacherWCoursesAndDepartmentResponse();
 
         response.setId(teacher.getId());
         response.setFirstName(teacher.getFirstName());
         response.setLastName(teacher.getLastName());
         response.setEmail(teacher.getEmail());
         response.setLeaveDays(teacher.getLeaveDays());
+        response.setDepartment(teacher.getDepartment());
 
         // Convert Set<Course> → CourseDto[]
         Set<Course> courses = teacher.getCourses();

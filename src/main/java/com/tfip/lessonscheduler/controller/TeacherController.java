@@ -3,7 +3,7 @@ package com.tfip.lessonscheduler.controller;
 import java.util.List;
 
 import com.tfip.lessonscheduler.dto.TeacherWLeavesResponse;
-import com.tfip.lessonscheduler.dto.TeacherWCoursesResponse;
+import com.tfip.lessonscheduler.dto.TeacherWCoursesAndDepartmentResponse;
 import com.tfip.lessonscheduler.dto.TeacherWithLeavesAndSectionsResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +26,8 @@ public class TeacherController {
   }
 
   @GetMapping("{managerId}/courses")
-  public ResponseEntity<List<TeacherWCoursesResponse>> getAllTeacherWithCourses(@PathVariable Long managerId) {
-      return new ResponseEntity<>(teacherService.getTeachersWithCourses(managerId), HttpStatus.OK);
+  public ResponseEntity<List<TeacherWCoursesAndDepartmentResponse>> getAllTeacherWithCoursesAndDepartment(@PathVariable Long managerId) {
+      return new ResponseEntity<>(teacherService.getTeachersWithCoursesAndDepartment(managerId), HttpStatus.OK);
   }
 
   @GetMapping("{managerId}/leaves")
