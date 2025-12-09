@@ -1,6 +1,7 @@
 package com.tfip.lessonscheduler.controller;
 
 import com.tfip.lessonscheduler.dto.CourseDto;
+import com.tfip.lessonscheduler.entity.Course;
 import com.tfip.lessonscheduler.service.CourseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class CourseController {
     }
 
     @GetMapping("{departmentId}")
-    public ResponseEntity<List<CourseDto>> getCoursesByDepartmentId(@PathVariable Long departmentId) {
+    public ResponseEntity<List<Course>> getCoursesByDepartmentId(@PathVariable Long departmentId) {
         return new ResponseEntity<>(courseService.getCoursesByDepartmentId(departmentId), HttpStatus.OK);
     }
 }

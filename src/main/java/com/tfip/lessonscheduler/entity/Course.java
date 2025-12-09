@@ -37,8 +37,10 @@ public class Course {
   @Column(name = "course_code", nullable = false, columnDefinition = "CHAR(5)")
   private String courseCode;
 
+  @Column(name = "description",length=1000)
+  private String description;
+
   @ManyToOne(cascade={CascadeType.REMOVE})
-  @JsonIgnore
   @JoinColumn(name = "department_id", referencedColumnName = "id",nullable=false)
   private Department department;
 

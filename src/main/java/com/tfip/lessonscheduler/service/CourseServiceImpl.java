@@ -1,6 +1,7 @@
 package com.tfip.lessonscheduler.service;
 
 import com.tfip.lessonscheduler.dto.CourseDto;
+import com.tfip.lessonscheduler.entity.Course;
 import com.tfip.lessonscheduler.mapper.CourseMapper;
 import com.tfip.lessonscheduler.repository.CourseRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDto> getCoursesByDepartmentId(Long departmentId) {
-        return courseRepository.findAllByDepartmentId(departmentId).stream().map(courseMapper::toCourseDto).collect(Collectors.toList());
+    public List<Course> getCoursesByDepartmentId(Long departmentId) {
+        return courseRepository.findAllByDepartmentId(departmentId);
     }
 }
