@@ -4,7 +4,7 @@ import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
 import com.tfip.lessonscheduler.entity.Section;
 import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
-import com.tfip.lessonscheduler.exception.AppException;
+import com.tfip.lessonscheduler.exception.ResourceNotFoundException;
 import com.tfip.lessonscheduler.mapper.TeacherLeaveMapper;
 import com.tfip.lessonscheduler.repository.SectionRepository;
 import com.tfip.lessonscheduler.repository.TeacherLeaveRepository;
@@ -38,7 +38,7 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
     public List<TeacherLeaveWTeacherResponse> getLeavesOfAllTeachersInvolved(Long leaveId) {
         // Get specific leave to resolve leave-schedule conflict
         TeacherLeave leave = leaveRepository.findById(leaveId)
-                .orElseThrow(() -> new AppException("Leave with id " + leaveId + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Leave with id " + leaveId + " not found"));
 
         // Get all section within leave period
         List<Section> conflictingSections =
@@ -73,7 +73,9 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
 
     @Override
     public TeacherLeaveWTeacherResponse getByIdWTeacher(Long leaveId) {
-        TeacherLeave leave = leaveRepository.findById(leaveId).orElseThrow(() -> new AppException("Leave with id " + leaveId + " not found"));
+        TeacherLeave leave =
+          leaveRepository.findById(leaveId).orElseThrow(() -> new ResourceNotFoundException(
+            "Leave with id " + leaveId + " not found"));
 
         return teacherLeaveMapper.toTeacherLeaveWTeacherResponse(leave);
     }

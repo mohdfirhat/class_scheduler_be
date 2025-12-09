@@ -1,19 +1,15 @@
 package com.tfip.lessonscheduler.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import com.tfip.lessonscheduler.dto.TeacherWLeavesResponse;
-import com.tfip.lessonscheduler.dto.TeacherWCoursesAndDepartmentResponse;
-import com.tfip.lessonscheduler.dto.TeacherWithLeavesAndSectionsResponse;
+import com.tfip.lessonscheduler.dto.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tfip.lessonscheduler.service.TeacherService;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("api/teachers")
@@ -39,5 +35,10 @@ public class TeacherController {
   public ResponseEntity<TeacherWithLeavesAndSectionsResponse> getTeacherWithSchedules(@PathVariable Long teacherId) {
     return new ResponseEntity<>(teacherService.getTeacherWithLeavesAndSections(teacherId),
             HttpStatus.OK);
+  }
+  @GetMapping("{managerId}/available")
+  public ResponseEntity<List<TeacherDto>> getAvailableTeacherAtTimeslot(@PathVariable Long managerId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam Long timeslotId) {
+    return new ResponseEntity<>(teacherService.getAvailableTeacherAtTimeslotByManagerId(managerId,date,timeslotId),
+      HttpStatus.OK);
   }
 }
