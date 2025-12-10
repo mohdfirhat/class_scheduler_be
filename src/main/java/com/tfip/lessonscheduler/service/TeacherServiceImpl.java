@@ -14,8 +14,8 @@ import com.tfip.lessonscheduler.repository.TeacherRepository;
 @Service
 public class TeacherServiceImpl implements TeacherService{
 
-  private TeacherRepository teacherRepository;
-  private TeacherMapper teacherMapper;
+  private final TeacherRepository teacherRepository;
+  private final TeacherMapper teacherMapper;
 
   public TeacherServiceImpl(TeacherRepository teacherRepository,TeacherMapper teacherMapper) {
     this.teacherRepository = teacherRepository;
@@ -42,9 +42,9 @@ public class TeacherServiceImpl implements TeacherService{
   }
 
   @Override
-  public List<TeacherDto> getAvailableTeacherAtTimeslotByManagerId(Long managerId, LocalDate date,Long timeslotId) {
+  public List<TeacherDto> getAvailableTeacherAtTimeslotByManagerId(Long managerId, LocalDate date,Long timeslotId,Long  courseId) {
     List<Teacher> availableTeachers =
-      teacherRepository.findAllAvailableTeacherAtTimeslotByManagerId(managerId,date,timeslotId);
+      teacherRepository.findAllAvailableTeacherAtTimeslotByManagerId(managerId,date,timeslotId,courseId);
     return availableTeachers.stream().map(teacherMapper::toTeacherDto).toList();
   }
 

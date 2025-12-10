@@ -14,6 +14,7 @@ public interface TeacherService {
 
   List<TeacherDto> getAvailableTeacherAtTimeslotByManagerId(Long managerId,
                                                             LocalDate date,
-                                                            Long timeslotId);
+                                                            Long timeslotId,
+                                                            Long courseId);
 
 }

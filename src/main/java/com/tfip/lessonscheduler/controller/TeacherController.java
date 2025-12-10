@@ -15,7 +15,7 @@ import com.tfip.lessonscheduler.service.TeacherService;
 @RequestMapping("api/teachers")
 public class TeacherController {
 
-  private TeacherService teacherService;
+  private final TeacherService teacherService;
 
   public TeacherController(TeacherService teacherService) {
     this.teacherService= teacherService;
@@ -37,8 +37,11 @@ public class TeacherController {
             HttpStatus.OK);
   }
   @GetMapping("{managerId}/available")
-  public ResponseEntity<List<TeacherDto>> getAvailableTeacherAtTimeslot(@PathVariable Long managerId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam Long timeslotId) {
-    return new ResponseEntity<>(teacherService.getAvailableTeacherAtTimeslotByManagerId(managerId,date,timeslotId),
+  public ResponseEntity<List<TeacherDto>> getAvailableTeacherAtTimeslot(@PathVariable Long managerId,
+                                                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                                                                        @RequestParam Long timeslotId,
+                                                                        @RequestParam Long courseId) {
+    return new ResponseEntity<>(teacherService.getAvailableTeacherAtTimeslotByManagerId(managerId,date,timeslotId,courseId),
       HttpStatus.OK);
   }
 }
