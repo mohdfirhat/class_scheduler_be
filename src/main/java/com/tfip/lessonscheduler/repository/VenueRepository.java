@@ -10,10 +10,6 @@ import java.util.List;
 
 public interface VenueRepository extends JpaRepository<Venue, Long> {
 
-
-  List<Venue> findAllByOccupancyGreaterThanEqual(Integer classSize);
-
-
   @Query("""
       SELECT v
       FROM Venue v
