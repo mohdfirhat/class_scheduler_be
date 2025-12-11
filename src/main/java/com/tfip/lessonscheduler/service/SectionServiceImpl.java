@@ -24,12 +24,12 @@ import java.util.Set;
 @Service
 public class SectionServiceImpl implements SectionService {
 
-    private SectionRepository sectionRepository;
-    private TeacherLeaveRepository teacherLeaveRepository;
-    private TeacherRepository teacherRepository;
-    private TeacherMapper teacherMapper;
-    private SectionMapper sectionMapper;
-    private CourseMapper courseMapper;
+    private final SectionRepository sectionRepository;
+    private final TeacherLeaveRepository teacherLeaveRepository;
+    private final TeacherRepository teacherRepository;
+    private final TeacherMapper teacherMapper;
+    private final SectionMapper sectionMapper;
+    private final CourseMapper courseMapper;
 
     public SectionServiceImpl(SectionRepository sectionRepository,TeacherLeaveRepository teacherLeaveRepository,TeacherRepository teacherRepository, TeacherMapper teacherMapper, SectionMapper sectionMapper,CourseMapper courseMapper) {
         this.sectionRepository = sectionRepository;
@@ -121,5 +121,10 @@ public class SectionServiceImpl implements SectionService {
         return sectionRepository.findByTeacherIdInAndDateBetween(availableTeacherIds,startMonth,endMonth).stream()
                 .map(sectionMapper::toSectionWCourseAndVenueAndTeacherResponse)
                 .toList();
+    }
+
+    @Override
+    public List<Section> getAllSections(){
+        return sectionRepository.findAll();
     }
 }

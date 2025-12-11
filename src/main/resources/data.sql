@@ -7,14 +7,14 @@ VALUES
 	('Science');
 
 INSERT INTO course
-	(department_id,name,course_code)
+	(department_id,name,course_code, description)
 VALUES
-	(1,'Programming Fundamentals','CS101'),
-	(1,'Object-Oriented Programming','CS102'),
-	(1,'Data Structures and Algorithms','CS103'),
-	(1,'Database Systems','CS201'),
-	(1,'Web Development','CS202'),
-	(1,'Software Engineering','CS203');
+	(1,'Programming Fundamentals','CS101', 'Introduction class to Programming Fundamentals'),
+	(1,'Object-Oriented Programming','CS102', 'Basics of Object Oriented Programming'),
+	(1,'Data Structures and Algorithms','CS103', 'Basics of Data Structures and Algorithms'),
+	(1,'Database Systems','CS201', 'Advanced techniques in managing database systems'),
+	(1,'Web Development','CS202', 'Introduction class to Web Development'),
+	(1,'Software Engineering','CS203', 'Software engineering fundamentals');
 
 INSERT INTO venue 
   (name,description,address,img_url,occupancy)
@@ -26,12 +26,12 @@ VALUES
   ('LT-05','Lecture Hall 5','Address 5', 'http://localhost:8000/img5',50);
 
 INSERT INTO teacher 
-	(department_id, manager_id ,first_name,last_name,email)
+	(department_id, manager_id ,first_name,last_name,email, avatar_url)
 VALUES 
-	(1,NULL,'Ada','Lovelace','ada.lovelace@gmail.com'),
-	(1,1,'Alan','Turing','alan.turing@gmail.com'),
-	(1,1,'Grace','Hopper','grace.hopper@gmail.com'),
-	(1,1,'Linus','Torvalds','linus.torvalds@gmail.com');
+	(1,NULL,'Ada','Lovelace','ada.lovelace@gmail.com', null),
+	(1,1,'Alan','Turing','alan.turing@gmail.com', 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg'),
+	(1,1,'Grace','Hopper','grace.hopper@gmail.com', 'https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/C597/production/_131938505_ind3bc40c5f1c10d4248e6bf848ae7033c8814005e9-1.jpg'),
+	(1,1,'Linus','Torvalds','linus.torvalds@gmail.com', null);
 
 INSERT INTO teachers_courses
 	(teacher_id,course_id)
@@ -87,4 +87,6 @@ INSERT INTO teacher_leave
     (teacher_id,teacher_leave_status_id,start_date,end_date)
 VALUES
     (2,1,'2025-10-20','2025-10-20'),
-    (3,1,'2025-10-20','2025-10-20');
+    (3,1,'2025-10-20','2025-10-20'),
+    (2,1, '2025-10-12', '2025-10-13'),
+    (2,1, '2025-10-19', '2025-10-22');

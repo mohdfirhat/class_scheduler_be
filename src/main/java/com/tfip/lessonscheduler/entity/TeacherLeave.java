@@ -2,6 +2,7 @@ package com.tfip.lessonscheduler.entity;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +40,7 @@ public class TeacherLeave {
   @JoinColumn(name = "teacher_leave_status_id", referencedColumnName = "id",nullable=false)
   private TeacherLeaveStatus status;
 
-
+  @JsonIgnoreProperties("teacherLeaves")
   @ManyToOne
   @JoinColumn(name = "teacher_id", referencedColumnName = "id",nullable=false)
   private Teacher teacher;

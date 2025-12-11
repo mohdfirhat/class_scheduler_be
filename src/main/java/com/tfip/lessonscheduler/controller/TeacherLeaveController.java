@@ -1,6 +1,7 @@
 package com.tfip.lessonscheduler.controller;
 
 import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
+import com.tfip.lessonscheduler.entity.TeacherLeave;
 import com.tfip.lessonscheduler.service.TeacherLeaveService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/leaves")
 public class TeacherLeaveController {
-    private TeacherLeaveService teacherLeaveService;
+    private final TeacherLeaveService teacherLeaveService;
 
     public TeacherLeaveController(TeacherLeaveService teacherLeaveService) {
         this.teacherLeaveService = teacherLeaveService;
@@ -33,6 +34,25 @@ public class TeacherLeaveController {
         return new ResponseEntity<>(teacherLeaveService.getLeavesOfAllTeachersInvolved(leaveId),
                 HttpStatus.OK);
     }
+
+    @GetMapping("pending")
+    public ResponseEntity<List<TeacherLeave>> getLeavesWithPendingStatus(){
+        return new ResponseEntity<>(teacherLeaveService.getLeavesWithPendingStatus(),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("pending/conflicting")
+    public ResponseEntity<List<TeacherLeave>> getPendingLeavesWithConflict(){
+        return new ResponseEntity<>(teacherLeaveService.getLeavesWithConflict(),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("pending/non_conflicting")
+    public ResponseEntity<List<TeacherLeave>> getPendingLeavesWithoutConflict(){
+        return new ResponseEntity<>(teacherLeaveService.getNonConflictingLeavesWithPendingStatus(),
+                HttpStatus.OK);
+    }
+
 
 
 }

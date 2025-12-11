@@ -25,6 +25,7 @@ public class TeacherMapper {
         response.setEmail(teacher.getEmail());
         response.setLeaveDays(teacher.getLeaveDays());
         response.setDepartment(teacher.getDepartment());
+        response.setAvatar(teacher.getAvatar());
 
         // Convert Set<Course> → CourseDto[]
         Set<Course> courses = teacher.getCourses();

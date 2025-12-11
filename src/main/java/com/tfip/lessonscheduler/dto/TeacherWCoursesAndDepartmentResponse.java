@@ -14,6 +14,7 @@ public class TeacherWCoursesAndDepartmentResponse {
     private String lastName;
     private String email;
     private Integer leaveDays;
+    private String avatar;
     private CourseDto[] courses;
     private Department department;
 }

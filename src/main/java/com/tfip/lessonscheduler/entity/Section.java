@@ -2,6 +2,7 @@ package com.tfip.lessonscheduler.entity;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -50,6 +51,7 @@ public class Section {
           nullable=false)
   private Timeslot timeslot;
 
+  @JsonIgnoreProperties("section")
   @ManyToOne
   @JoinColumn(name = "teacher_id", referencedColumnName = "id",nullable=false)
   private Teacher teacher;

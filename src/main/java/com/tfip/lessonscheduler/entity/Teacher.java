@@ -2,7 +2,7 @@ package com.tfip.lessonscheduler.entity;
 
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,13 +43,19 @@ public class Teacher {
   @Column(name = "leave_days",nullable=false,columnDefinition="INT DEFAULT 14")
   private Integer leaveDays = 14;
 
+  @Column(name="avatar_url")
+  private String avatar;
+
+  @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "manager_id", referencedColumnName = "id")
   private Teacher manager;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "manager")
   private Set<Teacher> teachers;
 
+  @JsonIgnoreProperties("teacher")
   @OneToMany(mappedBy = "teacher")
   private Set<Section> sections;
 
@@ -60,7 +66,7 @@ public class Teacher {
   @JoinColumn(name = "department_id", referencedColumnName = "id",nullable=false)
   private Department department;
 
-  @ManyToMany(cascade = { CascadeType.REMOVE })
+  @ManyToMany
   @JoinTable(
     name = "teachers_courses", 
     joinColumns = { @JoinColumn(name = "teacher_id") }, 

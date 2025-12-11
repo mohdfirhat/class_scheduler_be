@@ -19,10 +19,10 @@ import java.util.Set;
 @Service
 public class TeacherLeaveServiceImpl implements TeacherLeaveService {
 
-    private TeacherRepository teacherRepository;
-    private SectionRepository sectionRepository;
-    private TeacherLeaveRepository leaveRepository;
-    private TeacherLeaveMapper teacherLeaveMapper;
+    private final TeacherRepository teacherRepository;
+    private final SectionRepository sectionRepository;
+    private final TeacherLeaveRepository leaveRepository;
+    private final TeacherLeaveMapper teacherLeaveMapper;
 
     public TeacherLeaveServiceImpl(TeacherRepository teacherRepository,
                                    SectionRepository sectionRepository,
@@ -78,5 +78,20 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
             "Leave with id " + leaveId + " not found"));
 
         return teacherLeaveMapper.toTeacherLeaveWTeacherResponse(leave);
+    }
+
+    @Override
+    public List<TeacherLeave> getLeavesWithConflict(){
+        return leaveRepository.findLeavesWithConflict();
+    }
+
+    @Override
+    public List<TeacherLeave> getLeavesWithPendingStatus(){
+        return leaveRepository.findLeavesWithPendingStatus();
+    }
+
+    @Override
+    public List<TeacherLeave> getNonConflictingLeavesWithPendingStatus(){
+        return leaveRepository.findNonConflictingLeavesWithPendingStatus();
     }
 }
