@@ -102,20 +102,20 @@ public class TeacherMapper {
             TeacherLeaveDto[] leaveDtos = leaves.stream()
                     .map(this::toTeacherLeaveDto)
                     .toArray(TeacherLeaveDto[]::new);
-            response.setTeacherLeaves(leaveDtos);
+            response.setLeaves(leaveDtos);
         } else {
-            response.setTeacherLeaves(new TeacherLeaveDto[0]);
+            response.setLeaves(new TeacherLeaveDto[0]);
         }
 
         // Convert Set<Section> → CourseDto[]
         Set<Section> lesson = teacher.getSections();
         if (lesson != null && !lesson.isEmpty()) {
-            SectionDto[] lessonDtos = lesson.stream()
-                    .map(this::toSectionDto)
-                    .toArray(SectionDto[]::new);
+            SectionWCourseAndVenueResponse[] lessonDtos = lesson.stream()
+                    .map(this::toSectionWCourseAndVenueResponse)
+                    .toArray(SectionWCourseAndVenueResponse[]::new);
             response.setSections(lessonDtos);
         } else {
-            response.setSections(new SectionDto[0]);
+            response.setSections(new SectionWCourseAndVenueResponse[0]);
         }
 
         return response;
@@ -160,5 +160,26 @@ public class TeacherMapper {
         dto.setStatus(lesson.getStatus());
 
         return dto;
+    }
+
+    public SectionWCourseAndVenueResponse toSectionWCourseAndVenueResponse(Section section) {
+        if (section == null) {
+            return null;
+        }
+
+        SectionWCourseAndVenueResponse response =
+          new SectionWCourseAndVenueResponse();
+
+        response.setId(section.getId());
+        response.setName(section.getName());
+        response.setDescription(section.getDescription());
+        response.setDate(section.getDate());
+        response.setTimeslot(section.getTimeslot());
+        response.setClassSize(section.getClassSize());
+        response.setStatus(section.getStatus());
+        response.setCourse(this.toCourseDto(section.getCourse()));
+        response.setVenue(section.getVenue());
+
+        return response;
     }
 }

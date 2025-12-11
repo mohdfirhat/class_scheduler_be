@@ -13,6 +13,6 @@ public class TeacherWithLeavesAndSectionsResponse {
     private String lastName;
     private String email;
     private Integer leaveDays;
-    private TeacherLeaveDto[] teacherLeaves;
-    private SectionDto[] sections;
+    private TeacherLeaveDto[] leaves;
+    private SectionWCourseAndVenueResponse[] sections;
 }

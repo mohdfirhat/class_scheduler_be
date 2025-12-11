@@ -4,6 +4,7 @@ import com.tfip.lessonscheduler.entity.Venue;
 import com.tfip.lessonscheduler.repository.VenueRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -16,8 +17,8 @@ public class VenueServiceImp implements VenueService {
   }
 
   @Override
-  public List<Venue> findAllByOccupancyGreaterThan(Integer classSize) {
-    return  venueRepository.findAllByOccupancyGreaterThanEqual(classSize);
+  public List<Venue> findAvailableVenues(Integer classSize, LocalDate date, Long timeslotId) {
+    return  venueRepository.findAllAvailableVenue(classSize,date,timeslotId);
   }
 
 
