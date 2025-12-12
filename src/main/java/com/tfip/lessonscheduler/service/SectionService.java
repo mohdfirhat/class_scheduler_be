@@ -12,4 +12,5 @@ public interface SectionService {
     List<SectionWCourseAndVenueAndTeacherResponse> getSectionsOfAllTeachersInvolved(Long leaveId);
 
     List<Section> getAllSections();
+    SectionWCourseAndVenueAndTeacherResponse getSectionById(Long sectionId);
 }
