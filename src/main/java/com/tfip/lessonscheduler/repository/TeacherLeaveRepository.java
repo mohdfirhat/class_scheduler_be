@@ -16,14 +16,11 @@ public interface TeacherLeaveRepository extends JpaRepository<TeacherLeave, Long
     );
 
     @Query("""
-            SELECT tl
-            FROM TeacherLeave tl
-            WHERE tl.teacher.id IN (
-                SELECT s.teacher.id
-                FROM Section s
-                WHERE s.date BETWEEN tl.startDate AND tl.endDate)
-            """)
-    List<TeacherLeave> findLeavesWithConflict();
+           SELECT tl
+           FROM TeacherLeave tl
+           WHERE tl.status.id != 1
+           """)
+    List<TeacherLeave> findLeavesWithNonPendingStatus();
 
     @Query("""
            SELECT tl
@@ -31,6 +28,16 @@ public interface TeacherLeaveRepository extends JpaRepository<TeacherLeave, Long
            WHERE tl.status.id = 1
            """)
     List<TeacherLeave> findLeavesWithPendingStatus();
+
+    @Query("""
+            SELECT tl
+            FROM TeacherLeave tl
+            WHERE tl.teacher.id IN (
+                SELECT s.teacher.id
+                FROM Section s
+                WHERE s.date BETWEEN tl.startDate AND tl.endDate)
+            """)
+    List<TeacherLeave> findConflictingLeavesWithPendingStatus();
 
     @Query("""
             SELECT tl

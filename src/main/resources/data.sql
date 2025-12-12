@@ -31,7 +31,8 @@ VALUES
 	(1,NULL,'Ada','Lovelace','ada.lovelace@gmail.com', null),
 	(1,1,'Alan','Turing','alan.turing@gmail.com', 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg'),
 	(1,1,'Grace','Hopper','grace.hopper@gmail.com', 'https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/C597/production/_131938505_ind3bc40c5f1c10d4248e6bf848ae7033c8814005e9-1.jpg'),
-	(1,1,'Linus','Torvalds','linus.torvalds@gmail.com', null);
+	(1,1,'Linus','Torvalds','linus.torvalds@gmail.com', null),
+    (1,1,'Bob','Marley','bob.marley@gmail.com', null);
 
 INSERT INTO teachers_courses
 	(teacher_id,course_id)
@@ -89,4 +90,7 @@ VALUES
     (2,1,'2025-10-20','2025-10-20'),
     (3,1,'2025-10-20','2025-10-20'),
     (2,1, '2025-10-12', '2025-10-13'),
-    (2,1, '2025-10-19', '2025-10-22');
+    (2,1, '2025-10-19', '2025-10-22'),
+    (5,1, '2025-12-13', '2025-12-20'),
+    (5,2, '2025-10-19', '2025-10-22'),
+    (5,3, '2025-10-19', '2025-10-29');

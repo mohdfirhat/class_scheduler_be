@@ -1,5 +1,6 @@
 package com.tfip.lessonscheduler.service;
 
+import com.tfip.lessonscheduler.dto.TeacherLeaveWConflictingSectionsResponse;
 import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
 import com.tfip.lessonscheduler.entity.Section;
 import com.tfip.lessonscheduler.entity.Teacher;
@@ -12,6 +13,7 @@ import com.tfip.lessonscheduler.repository.TeacherRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -81,8 +83,8 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
     }
 
     @Override
-    public List<TeacherLeave> getLeavesWithConflict(){
-        return leaveRepository.findLeavesWithConflict();
+    public List<TeacherLeave> getLeavesWithNonPendingStatus(){
+        return leaveRepository.findLeavesWithNonPendingStatus();
     }
 
     @Override
@@ -91,7 +93,35 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
     }
 
     @Override
+    public List<TeacherLeave> getConflictingLeavesWithPendingStatus(){
+        return leaveRepository.findConflictingLeavesWithPendingStatus();
+    }
+
+    @Override
     public List<TeacherLeave> getNonConflictingLeavesWithPendingStatus(){
         return leaveRepository.findNonConflictingLeavesWithPendingStatus();
+    }
+
+    @Override
+    public List<TeacherLeaveWConflictingSectionsResponse> getConflictingLeavesWithAffectedSections(){
+        List<TeacherLeaveWConflictingSectionsResponse>
+                teacherLeavesWConflictingSections = new ArrayList<>();
+
+        List<TeacherLeave> teacherLeaves =
+                leaveRepository.findConflictingLeavesWithPendingStatus();
+
+        for(TeacherLeave leave: teacherLeaves){
+            List<Section> conflictingSections =
+                    sectionRepository.findByTeacherIdAndDateBetween(
+                            leave.getTeacher().getId(),
+                            leave.getStartDate(),
+                            leave.getEndDate());
+
+            teacherLeavesWConflictingSections.add(
+                    teacherLeaveMapper
+                            .toTeacherLeaveWConflictingSectionsResponse(leave
+                                    , conflictingSections));
+            }
+        return teacherLeavesWConflictingSections;
     }
 }

@@ -1,5 +1,6 @@
 package com.tfip.lessonscheduler.controller;
 
+import com.tfip.lessonscheduler.dto.TeacherLeaveWConflictingSectionsResponse;
 import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
 import com.tfip.lessonscheduler.service.TeacherLeaveService;
@@ -35,6 +36,12 @@ public class TeacherLeaveController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("non_pending")
+    public ResponseEntity<List<TeacherLeave>> getLeavesWithNonPendingStatus(){
+        return new ResponseEntity<>(teacherLeaveService.getLeavesWithNonPendingStatus(),
+                HttpStatus.OK);
+    }
+
     @GetMapping("pending")
     public ResponseEntity<List<TeacherLeave>> getLeavesWithPendingStatus(){
         return new ResponseEntity<>(teacherLeaveService.getLeavesWithPendingStatus(),
@@ -42,8 +49,8 @@ public class TeacherLeaveController {
     }
 
     @GetMapping("pending/conflicting")
-    public ResponseEntity<List<TeacherLeave>> getPendingLeavesWithConflict(){
-        return new ResponseEntity<>(teacherLeaveService.getLeavesWithConflict(),
+    public ResponseEntity<List<TeacherLeaveWConflictingSectionsResponse>> getPendingLeavesWithConflict(){
+        return new ResponseEntity<>(teacherLeaveService.getConflictingLeavesWithAffectedSections(),
                 HttpStatus.OK);
     }
 

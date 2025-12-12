@@ -1,5 +1,6 @@
 package com.tfip.lessonscheduler.service;
 
+import com.tfip.lessonscheduler.dto.TeacherLeaveWConflictingSectionsResponse;
 import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
 
@@ -10,9 +11,13 @@ public interface TeacherLeaveService {
 
     TeacherLeaveWTeacherResponse getByIdWTeacher(Long leaveId);
 
-    List<TeacherLeave> getLeavesWithConflict();
+    List<TeacherLeave> getLeavesWithNonPendingStatus();
 
     List<TeacherLeave> getLeavesWithPendingStatus();
 
+    List<TeacherLeave> getConflictingLeavesWithPendingStatus();
+
     List<TeacherLeave> getNonConflictingLeavesWithPendingStatus();
+
+    List<TeacherLeaveWConflictingSectionsResponse> getConflictingLeavesWithAffectedSections();
 }
