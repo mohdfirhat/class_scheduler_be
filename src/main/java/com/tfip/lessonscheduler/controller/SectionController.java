@@ -39,4 +39,11 @@ public class SectionController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("{sectionId}")
+    public ResponseEntity<SectionWCourseAndVenueAndTeacherResponse> getSectionWCourseAndVenueAndTeacherById(@PathVariable Long sectionId) {
+        return new ResponseEntity<>(sectionService.getSectionById(sectionId),
+          HttpStatus.OK);
+    }
+
+
 }

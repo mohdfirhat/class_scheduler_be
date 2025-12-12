@@ -153,8 +153,7 @@ public class TeacherMapper {
         }
         SectionDto dto = new SectionDto();
         dto.setId(lesson.getId());
-        dto.setName(lesson.getName());
-        dto.setDescription(lesson.getDescription());
+        dto.setRemark(lesson.getRemark());
         dto.setDate(lesson.getDate());
         dto.setTimeslot(lesson.getTimeslot());
         dto.setClassSize(lesson.getClassSize());
@@ -172,8 +171,7 @@ public class TeacherMapper {
           new SectionWCourseAndVenueResponse();
 
         response.setId(section.getId());
-        response.setName(section.getName());
-        response.setDescription(section.getDescription());
+        response.setRemark(section.getRemark());
         response.setDate(section.getDate());
         response.setTimeslot(section.getTimeslot());
         response.setClassSize(section.getClassSize());

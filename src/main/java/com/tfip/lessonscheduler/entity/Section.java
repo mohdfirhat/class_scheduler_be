@@ -28,11 +28,8 @@ public class Section {
   @Column(name = "id")
   private Long id;
 
-  @Column(name = "name",nullable=false)
-  private String name;
-
-  @Column(name = "description",length=1000)
-  private String description;
+  @Column(name = "remark",length=1000)
+  private String remark;
 
   @Column(name = "date",nullable=false)
   private LocalDate date;

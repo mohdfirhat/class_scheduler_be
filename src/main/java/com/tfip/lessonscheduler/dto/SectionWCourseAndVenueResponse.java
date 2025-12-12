@@ -14,8 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class SectionWCourseAndVenueResponse {
     private Long id;
-    private String name;
-    private String description;
+    private String remark;
     private LocalDate date;
     private Timeslot timeslot;
     private Integer classSize;

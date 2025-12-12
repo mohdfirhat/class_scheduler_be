@@ -70,8 +70,7 @@ public class SectionServiceImpl implements SectionService {
             SectionWCourseAndAvailableTeachersResponse res =
                     new SectionWCourseAndAvailableTeachersResponse(
                         section.getId(),
-                        section.getName(),
-                        section.getDescription(),
+                        section.getRemark(),
                         section.getDate(),
                         section.getTimeslot(),
                         section.getClassSize(),
@@ -126,5 +125,12 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public List<Section> getAllSections(){
         return sectionRepository.findAll();
+    }
+
+    @Override
+    public SectionWCourseAndVenueAndTeacherResponse getSectionById(Long sectionId) {
+        Section section = sectionRepository.findById(sectionId).orElseThrow(()-> new ResourceNotFoundException("Section with id" + sectionId + "not found"));
+
+        return sectionMapper.toSectionWCourseAndVenueAndTeacherResponse(section);
     }
 }

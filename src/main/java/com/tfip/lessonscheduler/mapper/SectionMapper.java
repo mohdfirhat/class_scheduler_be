@@ -15,8 +15,7 @@ public class SectionMapper {
     public SectionDto toSectionDto(Section section) {
         return new SectionDto(
                 section.getId(),
-                section.getName(),
-                section.getDescription(),
+                section.getRemark(),
                 section.getDate(),
                 section.getTimeslot(),
                 section.getClassSize(),
@@ -32,8 +31,7 @@ public class SectionMapper {
         SectionWCourseAndVenueAndTeacherResponse response = new SectionWCourseAndVenueAndTeacherResponse();
 
         response.setId(section.getId());
-        response.setName(section.getName());
-        response.setDescription(section.getDescription());
+        response.setRemark(section.getRemark());
         response.setDate(section.getDate());
         response.setTimeslot(section.getTimeslot());
         response.setClassSize(section.getClassSize());

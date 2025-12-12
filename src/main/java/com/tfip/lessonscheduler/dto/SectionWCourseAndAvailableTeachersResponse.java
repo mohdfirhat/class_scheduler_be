@@ -14,8 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SectionWCourseAndAvailableTeachersResponse {
     private Long id;
-    private String name;
-    private String description;
+    private String remark;
     private LocalDate date;
     private Timeslot timeslot;
     private Integer classSize;
