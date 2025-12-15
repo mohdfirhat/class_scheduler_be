@@ -1,18 +1,17 @@
 package com.tfip.lessonscheduler.service;
 
+import com.tfip.lessonscheduler.dto.SectionCreateDto;
 import com.tfip.lessonscheduler.dto.SectionWCourseAndVenueAndTeacherResponse;
 import com.tfip.lessonscheduler.dto.SectionWCourseAndAvailableTeachersResponse;
 import com.tfip.lessonscheduler.dto.TeacherDto;
-import com.tfip.lessonscheduler.entity.Section;
-import com.tfip.lessonscheduler.entity.Teacher;
-import com.tfip.lessonscheduler.entity.TeacherLeave;
+import com.tfip.lessonscheduler.entity.*;
+import com.tfip.lessonscheduler.exception.AppException;
 import com.tfip.lessonscheduler.exception.ResourceNotFoundException;
 import com.tfip.lessonscheduler.mapper.CourseMapper;
 import com.tfip.lessonscheduler.mapper.SectionMapper;
 import com.tfip.lessonscheduler.mapper.TeacherMapper;
-import com.tfip.lessonscheduler.repository.SectionRepository;
-import com.tfip.lessonscheduler.repository.TeacherLeaveRepository;
-import com.tfip.lessonscheduler.repository.TeacherRepository;
+import com.tfip.lessonscheduler.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,14 +29,22 @@ public class SectionServiceImpl implements SectionService {
     private final TeacherMapper teacherMapper;
     private final SectionMapper sectionMapper;
     private final CourseMapper courseMapper;
+    private final TimeslotRepository timeslotRepository;
+    private final VenueRepository venueRepository;
+    private final CourseRepository courseRepository;
+    private final SectionStatusRepository sectionStatusRepository;
 
-    public SectionServiceImpl(SectionRepository sectionRepository,TeacherLeaveRepository teacherLeaveRepository,TeacherRepository teacherRepository, TeacherMapper teacherMapper, SectionMapper sectionMapper,CourseMapper courseMapper) {
+    public SectionServiceImpl(SectionRepository sectionRepository, TeacherLeaveRepository teacherLeaveRepository, TeacherRepository teacherRepository, TeacherMapper teacherMapper, SectionMapper sectionMapper, CourseMapper courseMapper, TimeslotRepository timeslotRepository, VenueRepository venueRepository, CourseRepository courseRepository,SectionStatusRepository sectionStatusRepository) {
         this.sectionRepository = sectionRepository;
         this.teacherLeaveRepository = teacherLeaveRepository;
         this.teacherRepository = teacherRepository;
         this.teacherMapper = teacherMapper;
         this.sectionMapper = sectionMapper;
         this.courseMapper = courseMapper;
+        this.timeslotRepository = timeslotRepository;
+        this.venueRepository = venueRepository;
+        this.courseRepository = courseRepository;
+        this.sectionStatusRepository = sectionStatusRepository;
     }
 
 
@@ -132,5 +139,51 @@ public class SectionServiceImpl implements SectionService {
         Section section = sectionRepository.findById(sectionId).orElseThrow(()-> new ResourceNotFoundException("Section with id" + sectionId + "not found"));
 
         return sectionMapper.toSectionWCourseAndVenueAndTeacherResponse(section);
+    }
+
+    @Override
+    @Transactional
+    public void saveSection(SectionCreateDto sectionCreateDto) {
+        // find teacher
+        Teacher teacher = teacherRepository.findById(sectionCreateDto.getTeacherId()).orElseThrow(()-> new IllegalArgumentException("Teacher with id" + sectionCreateDto.getTeacherId() + "not found"));
+        // find timeslot
+        Timeslot timeslot = timeslotRepository.findById(sectionCreateDto.getTimeslotId()).orElseThrow(()-> new  IllegalArgumentException("Timeslot with id" + sectionCreateDto.getTimeslotId() + "not found"));
+        // find venue
+        Venue venue = venueRepository.findById(sectionCreateDto.getVenueId()).orElseThrow(()-> new IllegalArgumentException("Venue with id" + sectionCreateDto.getVenueId() + "not found"));
+        // find course
+        Course course = courseRepository.findById(sectionCreateDto.getCourseId()).orElseThrow(()-> new IllegalArgumentException("Course with id" + sectionCreateDto.getCourseId() + "not found"));
+        // get status pending
+        SectionStatus status = sectionStatusRepository.findById(1L).orElseThrow(()->new AppException("Server Error: Error with Section Status"));
+
+        // venue available check
+        List<Venue> availableVenues = venueRepository.findAllAvailableVenue(sectionCreateDto.getClassSize(),sectionCreateDto.getDate(), sectionCreateDto.getTimeslotId());
+        boolean isVenueAvailable = availableVenues.stream()
+          .anyMatch(v -> v.getId().equals(venue.getId()));
+
+        if (!isVenueAvailable) {
+            throw new IllegalArgumentException("Selected venue is not available for this date and timeslot.");
+        }
+        // teacher available check
+        List<Teacher> availableTeachers = teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(sectionCreateDto.getDate(), sectionCreateDto.getTimeslotId(), sectionCreateDto.getCourseId());
+        boolean isTeacherAvailable = availableTeachers.stream()
+          .anyMatch(t -> t.getId().equals(teacher.getId()));
+
+        if (!isTeacherAvailable) {
+            throw new IllegalArgumentException("Selected teacher is not available for this date and timeslot or do not teacher this course.");
+        }
+
+
+        Section newSection = new Section(null,
+          sectionCreateDto.getRemark(),
+          sectionCreateDto.getDate(),
+          sectionCreateDto.getClassSize(),
+          status,
+          timeslot,
+          teacher,
+          venue,
+          course
+        );
+
+        sectionRepository.save(newSection);
     }
 }

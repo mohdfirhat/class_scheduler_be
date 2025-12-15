@@ -12,7 +12,22 @@ public class GlobalExceptionHandler {
   @ExceptionHandler({
     ResourceNotFoundException.class
   })
-  public ResponseEntity<String> handleException(Exception e) {
+  public ResponseEntity<String> handleNotFoundException(RuntimeException e) {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler({
+    IllegalArgumentException.class
+  })
+  public ResponseEntity<String> handleBadRequestException(RuntimeException e) {
+    return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+  }
+
+
+  @ExceptionHandler({
+    Exception.class
+  })
+  public ResponseEntity<String> handleGlobalException(Exception e) {
+    return new ResponseEntity<>("Something is wrong with the server", HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

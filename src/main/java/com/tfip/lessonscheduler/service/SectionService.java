@@ -1,5 +1,6 @@
 package com.tfip.lessonscheduler.service;
 
+import com.tfip.lessonscheduler.dto.SectionCreateDto;
 import com.tfip.lessonscheduler.dto.SectionWCourseAndVenueAndTeacherResponse;
 import com.tfip.lessonscheduler.dto.SectionWCourseAndAvailableTeachersResponse;
 import com.tfip.lessonscheduler.entity.Section;
@@ -13,4 +14,6 @@ public interface SectionService {
 
     List<Section> getAllSections();
     SectionWCourseAndVenueAndTeacherResponse getSectionById(Long sectionId);
+
+    void saveSection(SectionCreateDto sectionCreateDto);
 }
