@@ -2,14 +2,13 @@ package com.tfip.lessonscheduler.controller;
 
 import com.tfip.lessonscheduler.dto.TeacherLeaveWConflictingSectionsResponse;
 import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
+import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
+import com.tfip.lessonscheduler.model.LeaveUpdatingDetails;
 import com.tfip.lessonscheduler.service.TeacherLeaveService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -60,6 +59,17 @@ public class TeacherLeaveController {
                 HttpStatus.OK);
     }
 
+    @PutMapping("reject/{leaveId}")
+    public ResponseEntity<LeaveUpdatingDetails> rejectLeave(@PathVariable Long leaveId){
+        return new ResponseEntity<>(teacherLeaveService.rejectLeave(leaveId),
+                HttpStatus.OK);
+    }
+    //todo implement endpoints for approve and reject leave
 
+    @GetMapping("test")
+    public ResponseEntity<List<Teacher>> test(){
+        return new ResponseEntity<>(teacherLeaveService.test(),
+                HttpStatus.OK);
+    }
 
 }

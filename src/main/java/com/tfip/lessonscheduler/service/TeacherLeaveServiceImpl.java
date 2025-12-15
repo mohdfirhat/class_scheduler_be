@@ -5,18 +5,19 @@ import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
 import com.tfip.lessonscheduler.entity.Section;
 import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
+import com.tfip.lessonscheduler.entity.TeacherLeaveStatus;
 import com.tfip.lessonscheduler.exception.ResourceNotFoundException;
+import com.tfip.lessonscheduler.helpers.LeaveServiceHelpers;
 import com.tfip.lessonscheduler.mapper.TeacherLeaveMapper;
+import com.tfip.lessonscheduler.model.LeaveUpdatingDetails;
 import com.tfip.lessonscheduler.repository.SectionRepository;
 import com.tfip.lessonscheduler.repository.TeacherLeaveRepository;
 import com.tfip.lessonscheduler.repository.TeacherRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class TeacherLeaveServiceImpl implements TeacherLeaveService {
@@ -123,5 +124,79 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
                                     , conflictingSections));
             }
         return teacherLeavesWConflictingSections;
+    }
+
+    @Override
+    @Transactional
+    public LeaveUpdatingDetails rejectLeave(Long leaveId){
+        LeaveUpdatingDetails details;
+        TeacherLeave leave =
+                leaveRepository.findById(leaveId).orElseThrow(() ->
+                        new ResourceNotFoundException(
+                        "Leave with id " + leaveId + " not found"));
+
+        //check if leave has already been approved/rejected and return if it has
+        details = LeaveServiceHelpers.checkLeaveStatusStillPending(leave);
+        if (details.getMessage() != null){
+            return details;
+        }
+
+        //create a new 'rejected' status and save to leave entity, then call
+        // repo to update the database
+        TeacherLeaveStatus newStatus = new TeacherLeaveStatus(3L,
+                "rejected");
+        leave.setStatus(newStatus);
+        leaveRepository.save(leave);
+
+        details.setUpdateStatus(true);
+        details.setMessage("Leave " + leaveId +" has been " +
+                "successfully rejected.");
+        return details;
+    }
+
+    @Override
+    @Transactional
+    public LeaveUpdatingDetails approveLeave(Long leaveId){
+        LeaveUpdatingDetails details;
+        TeacherLeave leave =
+                leaveRepository.findById(leaveId).orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Leave with id " + leaveId + " not found"));
+
+        //check if leave has already been approved/rejected and return if it has
+        details = LeaveServiceHelpers.checkLeaveStatusStillPending(leave);
+        if (details.getMessage() != null){
+            return details;
+        }
+
+        //check if leave has new conflicts
+        List<TeacherLeaveWConflictingSectionsResponse> leavesWithConflicts =
+                getConflictingLeavesWithAffectedSections();
+
+        details = LeaveServiceHelpers.checkLeaveForConflicts(leaveId,
+                leavesWithConflicts);
+
+        //return if leave has new conflicts
+        if (details.getMessage() != null){
+            return details;
+        }
+
+        //create a new 'approved' status and save to leave entity, then call
+        // repo to update the database
+        TeacherLeaveStatus newStatus = new TeacherLeaveStatus(2L,
+                "approved");
+        leave.setStatus(newStatus);
+        leaveRepository.save(leave);
+
+        details.setUpdateStatus(true);
+        details.setMessage("Leave " + leaveId +" has been " +
+                "successfully approved.");
+        return details;
+
+    }
+
+    public List<Teacher> test (){
+
+        return leaveRepository.test();
     }
 }

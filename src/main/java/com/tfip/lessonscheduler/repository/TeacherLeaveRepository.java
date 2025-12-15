@@ -1,5 +1,6 @@
 package com.tfip.lessonscheduler.repository;
 
+import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -49,4 +50,11 @@ public interface TeacherLeaveRepository extends JpaRepository<TeacherLeave, Long
                  WHERE s.date BETWEEN l.startDate AND l.endDate)
             """)
     List<TeacherLeave> findNonConflictingLeavesWithPendingStatus();
+
+    @Query("""
+           SELECT t
+           FROM Teacher t JOIN TeacherLeave tl ON t.id = tl.teacher.id
+           WHERE tl.status.id = 1
+           """)
+    List<Teacher> test();
 }

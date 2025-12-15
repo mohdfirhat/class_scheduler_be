@@ -78,11 +78,11 @@ VALUES
 	(4,1,1,2,4,'lesson 5','2025-10-20', 10);
 
 INSERT INTO teacher_leave_status
-(id,type)
+(type)
 VALUES
-    (1,'pending'),
-    (2,'approved'),
-    (3,'rejected');
+    ('pending'),
+    ('approved'),
+    ('rejected');
 
 INSERT INTO teacher_leave
     (teacher_id,teacher_leave_status_id,start_date,end_date)
