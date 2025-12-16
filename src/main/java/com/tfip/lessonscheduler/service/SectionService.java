@@ -17,8 +17,6 @@ public interface SectionService {
 
     SectionWCourseAndVenueAndTeacherResponse getSectionById(Long sectionId);
 
-    void saveSection(SectionCreateDto sectionCreateDto);
-
     String cancelSection(Long sectionId);
 
     String approveSection(Long sectionId);
