@@ -72,7 +72,8 @@ INSERT INTO section
 	(teacher_id,venue_id,course_id,section_status_id,timeslot_id,remark,date,class_size)
 VALUES 
 	(2,1,1,2,1,'lesson 1','2025-10-20`',10),
-	(3,1,1,2,1,'lesson 2','2025-10-20',10),
+	(3,1,1,1,1,'lesson 2','2025-10-20',10),
+	(3,1,1,2,1,'lesson 6','2025-10-23',10),
 	(2,1,1,2,2,'lesson 3','2025-10-20',10),
 	(3,1,1,2,3,'lesson 4','2025-10-20', 10),
 	(4,1,1,2,4,'lesson 5','2025-10-20', 10);
@@ -88,6 +89,7 @@ INSERT INTO teacher_leave
     (teacher_id,teacher_leave_status_id,start_date,end_date)
 VALUES
     (3,1,'2025-10-20','2025-10-20'),
+    (3,2,'2025-10-23','2025-10-23'),
     (2,1, '2025-10-12', '2025-10-13'),
     (2,1, '2025-10-19', '2025-10-22'),
     (5,1, '2025-12-13', '2025-12-20'),
