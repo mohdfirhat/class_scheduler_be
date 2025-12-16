@@ -61,9 +61,10 @@ public class SectionServiceImpl implements SectionService {
 //        LocalDateTime start = leave.getStartDate().atStartOfDay();
 //        LocalDateTime end = leave.getEndDate().atTime(23, 59, 59);
 
-        // Get all section within leave period
+        // Get all section confirmed within leave period
         List<Section> conflictingSections =
-                sectionRepository.findByTeacherIdAndDateBetween(leave.getTeacher().getId(),leave.getStartDate(),leave.getEndDate());
+                sectionRepository.findConfirmedByTeacherIdAndDateBetween(leave.getTeacher().getId(),
+                  leave.getStartDate(),leave.getEndDate());
 
         // Create response object
         List<SectionWCourseAndAvailableTeachersResponse> responses = new ArrayList<>();
