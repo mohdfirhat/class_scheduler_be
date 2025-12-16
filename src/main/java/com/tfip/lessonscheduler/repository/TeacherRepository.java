@@ -18,7 +18,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
       SELECT t
       FROM Teacher t
       JOIN t.courses c
-      WHERE t.id = :teacherId 
+      WHERE t.id = :teacherId
       AND c.id = :courseId
       AND t.manager.id IS NOT NULL
     """)
