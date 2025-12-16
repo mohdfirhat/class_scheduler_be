@@ -13,7 +13,13 @@ public interface SectionService {
     List<SectionWCourseAndVenueAndTeacherResponse> getSectionsOfAllTeachersInvolved(Long leaveId);
 
     List<Section> getAllSections();
+
     SectionWCourseAndVenueAndTeacherResponse getSectionById(Long sectionId);
 
     void saveSection(SectionCreateDto sectionCreateDto);
+
+    String cancelSection(Long sectionId);
+
+    String approveSection(Long sectionId);
+
 }

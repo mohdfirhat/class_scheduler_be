@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeacherLeaveWConflictingSectionsResponse {
+
     private Long id;
     private LocalDate startDate;
     private LocalDate  endDate;

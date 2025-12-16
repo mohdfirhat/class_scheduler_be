@@ -48,5 +48,15 @@ public class SectionController {
         sectionService.saveSection(sectionCreateDto);
     }
 
+    @PutMapping("cancel/{sectionId}")
+    public ResponseEntity<String> cancelSection(@PathVariable Long sectionId){
+        return new ResponseEntity<>(sectionService.cancelSection(sectionId)
+                , HttpStatus.OK);
+    }
 
+    @PutMapping("approve/{sectionId}")
+    public ResponseEntity<String> approveSection(@PathVariable Long sectionId){
+        return new ResponseEntity<>(sectionService.approveSection(sectionId)
+                , HttpStatus.OK);
+    }
 }

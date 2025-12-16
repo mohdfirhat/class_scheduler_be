@@ -7,6 +7,7 @@ import com.tfip.lessonscheduler.dto.TeacherDto;
 import com.tfip.lessonscheduler.entity.*;
 import com.tfip.lessonscheduler.exception.AppException;
 import com.tfip.lessonscheduler.exception.ResourceNotFoundException;
+import com.tfip.lessonscheduler.helpers.SectionServiceHelpers;
 import com.tfip.lessonscheduler.mapper.CourseMapper;
 import com.tfip.lessonscheduler.mapper.SectionMapper;
 import com.tfip.lessonscheduler.mapper.TeacherMapper;
@@ -186,4 +187,45 @@ public class SectionServiceImpl implements SectionService {
 
         sectionRepository.save(newSection);
     }
+    //todo implement cancel and approve section logic
+    @Transactional
+    public String cancelSection(Long sectionId){
+
+        //check if the section exists in the database
+        Section section = sectionRepository.findById(sectionId).orElseThrow(() ->
+                new ResourceNotFoundException(
+                        "Leave with id " + sectionId + " not found."));
+
+        //check if the section has already been approved/canceled and return if
+        // it has
+        SectionServiceHelpers.checkIfSectionAlreadyRejected(section);
+
+        //create new SectionStatus and assign to section, then call repo to
+        // update the database
+        SectionStatus newStatus = new SectionStatus(3L, "rejected");
+        section.setStatus(newStatus);
+        sectionRepository.save(section);
+        return "Section " + sectionId + " has successfully been cancelled.";
+    }
+
+    @Transactional
+    public String approveSection(Long sectionId){
+
+        //check if the section exists in the database
+        Section section = sectionRepository.findById(sectionId).orElseThrow(() ->
+                new ResourceNotFoundException(
+                        "Leave with id " + sectionId + " not found."));
+
+        //check if the section has already been approved/canceled and return if
+        // it has
+        SectionServiceHelpers.checkIfSectionStatusStillPending(section);
+
+        //create new SectionStatus and assign to section, then call repo to
+        // update the database
+        SectionStatus newStatus = new SectionStatus(2L, "approved");
+        section.setStatus(newStatus);
+        sectionRepository.save(section);
+        return "Section " + sectionId + " has successfully been approved.";
+    }
+
 }

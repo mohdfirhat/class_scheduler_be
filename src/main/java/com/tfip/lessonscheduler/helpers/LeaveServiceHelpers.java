@@ -19,14 +19,8 @@ public class LeaveServiceHelpers {
         String leaveStatus = leave.getStatus().getType();
 
         if(!leaveStatus.equals("pending")){
-            details.setUpdateStatus(false);
-            if(leaveStatus.equals("approved")){
-                details.setMessage("Leave "+ leaveId.toString() + "has already " +
-                        "been approved.");
-            } else if (leaveStatus.equals("rejected")) {
-                details.setMessage("Leave " + leaveId.toString() + "has already " +
-                        "been rejected.");
-            }
+            details.setMessage("Leave "+ leaveId.toString() + " has " +
+                    "already been " + leaveStatus + ".");
         }
         return details;
     }
@@ -48,9 +42,8 @@ public class LeaveServiceHelpers {
         }
         if (leave == null){ return details;}
 
-        details.setUpdateStatus(false);
         StringBuilder message = new StringBuilder(
-                "Leave has existing conflicts with: ");
+                "Leave has existing conflicts with the following sections: \n\n");
         DateTimeFormatter formatter =
                 DateTimeFormatter.ofPattern("dd-MM-yyyy");
         List<Section> conflictingSections =
@@ -62,13 +55,18 @@ public class LeaveServiceHelpers {
                     .append(s.getId())
                     .append("] ");
 
-            message.append(s.getCourse().getName())
+            message.append(s.getCourse().getCourseCode())
                     .append(": ");
 
             message.append(s.getDate().format(formatter));
 
             if (i != conflictingSections.size() -1){
-                message.append(", ");
+                message.append("\n");
+
+            } else {
+                message.append("\n\n")
+                        .append("Please resolve conflicts before approving " +
+                                "leave.");
             }
         }
         details.setMessage(message.toString());

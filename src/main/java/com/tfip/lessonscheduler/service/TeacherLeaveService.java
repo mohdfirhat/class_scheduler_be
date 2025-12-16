@@ -2,7 +2,6 @@ package com.tfip.lessonscheduler.service;
 
 import com.tfip.lessonscheduler.dto.TeacherLeaveWConflictingSectionsResponse;
 import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
-import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
 import com.tfip.lessonscheduler.model.LeaveUpdatingDetails;
 
@@ -27,5 +26,4 @@ public interface TeacherLeaveService {
 
     LeaveUpdatingDetails approveLeave(Long leaveId);
 
-    List<Teacher> test();
 }

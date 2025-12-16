@@ -1,5 +1,6 @@
 package com.tfip.lessonscheduler.advise;
 
+import com.tfip.lessonscheduler.exception.StatusConflictException;
 import com.tfip.lessonscheduler.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,4 +31,11 @@ public class GlobalExceptionHandler {
   public ResponseEntity<String> handleGlobalException(Exception e) {
     return new ResponseEntity<>("Something is wrong with the server", HttpStatus.INTERNAL_SERVER_ERROR);
   }
+
+    @ExceptionHandler({
+    StatusConflictException.class
+    })
+    public ResponseEntity<String> handleStatusConflictException(StatusConflictException e) {
+        return new ResponseEntity<>(e.getMessage() , HttpStatus.CONFLICT);
+    }
 }

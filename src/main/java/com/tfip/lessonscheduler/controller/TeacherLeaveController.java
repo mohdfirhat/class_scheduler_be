@@ -2,7 +2,6 @@ package com.tfip.lessonscheduler.controller;
 
 import com.tfip.lessonscheduler.dto.TeacherLeaveWConflictingSectionsResponse;
 import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
-import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
 import com.tfip.lessonscheduler.model.LeaveUpdatingDetails;
 import com.tfip.lessonscheduler.service.TeacherLeaveService;
@@ -26,8 +25,6 @@ public class TeacherLeaveController {
         return new ResponseEntity<>(teacherLeaveService.getByIdWTeacher(leaveId),
                 HttpStatus.OK);
     }
-
-
 
     @GetMapping("conflict_leave/{leaveId}/all_leaves")
     public ResponseEntity<List<TeacherLeaveWTeacherResponse>> getLeavesOfAllTeachersInvolved(@PathVariable Long leaveId) {
@@ -64,11 +61,10 @@ public class TeacherLeaveController {
         return new ResponseEntity<>(teacherLeaveService.rejectLeave(leaveId),
                 HttpStatus.OK);
     }
-    //todo implement endpoints for approve and reject leave
 
-    @GetMapping("test")
-    public ResponseEntity<List<Teacher>> test(){
-        return new ResponseEntity<>(teacherLeaveService.test(),
+    @PutMapping("approve/{leaveId}")
+    public ResponseEntity<LeaveUpdatingDetails> approveLeave(@PathVariable Long leaveId){
+        return new ResponseEntity<>(teacherLeaveService.approveLeave(leaveId),
                 HttpStatus.OK);
     }
 

@@ -10,8 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LeaveUpdatingDetails {
-
-    private boolean updateStatus;
     private String message;
 
 }

@@ -6,6 +6,7 @@ import com.tfip.lessonscheduler.entity.Section;
 import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
 import com.tfip.lessonscheduler.entity.TeacherLeaveStatus;
+import com.tfip.lessonscheduler.exception.StatusConflictException;
 import com.tfip.lessonscheduler.exception.ResourceNotFoundException;
 import com.tfip.lessonscheduler.helpers.LeaveServiceHelpers;
 import com.tfip.lessonscheduler.mapper.TeacherLeaveMapper;
@@ -111,18 +112,21 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
         List<TeacherLeave> teacherLeaves =
                 leaveRepository.findConflictingLeavesWithPendingStatus();
 
-        for(TeacherLeave leave: teacherLeaves){
-            List<Section> conflictingSections =
-                    sectionRepository.findByTeacherIdAndDateBetween(
-                            leave.getTeacher().getId(),
-                            leave.getStartDate(),
-                            leave.getEndDate());
+        if(!teacherLeaves.isEmpty()){
+            for(TeacherLeave leave: teacherLeaves){
+                List<Section> conflictingSections =
+                        sectionRepository.findByTeacherIdAndDateBetween(
+                                leave.getTeacher().getId(),
+                                leave.getStartDate(),
+                                leave.getEndDate());
 
-            teacherLeavesWConflictingSections.add(
-                    teacherLeaveMapper
-                            .toTeacherLeaveWConflictingSectionsResponse(leave
-                                    , conflictingSections));
+                teacherLeavesWConflictingSections.add(
+                        teacherLeaveMapper
+                                .toTeacherLeaveWConflictingSectionsResponse(leave
+                                        , conflictingSections));
             }
+        }
+
         return teacherLeavesWConflictingSections;
     }
 
@@ -130,6 +134,7 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
     @Transactional
     public LeaveUpdatingDetails rejectLeave(Long leaveId){
         LeaveUpdatingDetails details;
+        //check if the leave exists in the database
         TeacherLeave leave =
                 leaveRepository.findById(leaveId).orElseThrow(() ->
                         new ResourceNotFoundException(
@@ -138,7 +143,7 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
         //check if leave has already been approved/rejected and return if it has
         details = LeaveServiceHelpers.checkLeaveStatusStillPending(leave);
         if (details.getMessage() != null){
-            return details;
+            throw new StatusConflictException(details.getMessage());
         }
 
         //create a new 'rejected' status and save to leave entity, then call
@@ -148,9 +153,7 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
         leave.setStatus(newStatus);
         leaveRepository.save(leave);
 
-        details.setUpdateStatus(true);
-        details.setMessage("Leave " + leaveId +" has been " +
-                "successfully rejected.");
+        details.setMessage("Leave " + leaveId +" has successfully been rejected.");
         return details;
     }
 
@@ -158,6 +161,7 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
     @Transactional
     public LeaveUpdatingDetails approveLeave(Long leaveId){
         LeaveUpdatingDetails details;
+        //check if the leave exists in the database
         TeacherLeave leave =
                 leaveRepository.findById(leaveId).orElseThrow(() ->
                         new ResourceNotFoundException(
@@ -166,7 +170,7 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
         //check if leave has already been approved/rejected and return if it has
         details = LeaveServiceHelpers.checkLeaveStatusStillPending(leave);
         if (details.getMessage() != null){
-            return details;
+            throw new StatusConflictException(details.getMessage());
         }
 
         //check if leave has new conflicts
@@ -178,7 +182,7 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
 
         //return if leave has new conflicts
         if (details.getMessage() != null){
-            return details;
+            throw new StatusConflictException(details.getMessage());
         }
 
         //create a new 'approved' status and save to leave entity, then call
@@ -188,15 +192,9 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
         leave.setStatus(newStatus);
         leaveRepository.save(leave);
 
-        details.setUpdateStatus(true);
-        details.setMessage("Leave " + leaveId +" has been " +
-                "successfully approved.");
+        details.setMessage("Leave " + leaveId +" has successfully been " +
+                "approved.");
         return details;
 
-    }
-
-    public List<Teacher> test (){
-
-        return leaveRepository.test();
     }
 }
