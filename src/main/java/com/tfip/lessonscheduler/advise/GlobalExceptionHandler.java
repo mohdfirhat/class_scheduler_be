@@ -1,5 +1,6 @@
 package com.tfip.lessonscheduler.advise;
 
+import com.tfip.lessonscheduler.exception.BusinessLogicException;
 import com.tfip.lessonscheduler.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +18,18 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler({
-    IllegalArgumentException.class
+    IllegalArgumentException.class,
+    BusinessLogicException.class
   })
   public ResponseEntity<String> handleBadRequestException(RuntimeException e) {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
   }
 
-
   @ExceptionHandler({
     Exception.class
   })
   public ResponseEntity<String> handleGlobalException(Exception e) {
+    e.printStackTrace();
     return new ResponseEntity<>("Something is wrong with the server", HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

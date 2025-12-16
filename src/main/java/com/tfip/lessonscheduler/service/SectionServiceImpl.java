@@ -1,11 +1,13 @@
 package com.tfip.lessonscheduler.service;
 
-import com.tfip.lessonscheduler.dto.SectionCreateDto;
+import com.tfip.lessonscheduler.dto.SectionCreateRequest;
 import com.tfip.lessonscheduler.dto.SectionWCourseAndVenueAndTeacherResponse;
 import com.tfip.lessonscheduler.dto.SectionWCourseAndAvailableTeachersResponse;
+import com.tfip.lessonscheduler.dto.SubTeacherRequest;
 import com.tfip.lessonscheduler.dto.TeacherDto;
 import com.tfip.lessonscheduler.entity.*;
 import com.tfip.lessonscheduler.exception.AppException;
+import com.tfip.lessonscheduler.exception.BusinessLogicException;
 import com.tfip.lessonscheduler.exception.ResourceNotFoundException;
 import com.tfip.lessonscheduler.mapper.CourseMapper;
 import com.tfip.lessonscheduler.mapper.SectionMapper;
@@ -143,40 +145,46 @@ public class SectionServiceImpl implements SectionService {
 
     @Override
     @Transactional
-    public void saveSection(SectionCreateDto sectionCreateDto) {
+    public void saveSection(SectionCreateRequest sectionCreateRequest) {
         // find teacher
-        Teacher teacher = teacherRepository.findById(sectionCreateDto.getTeacherId()).orElseThrow(()-> new IllegalArgumentException("Teacher with id" + sectionCreateDto.getTeacherId() + "not found"));
+        Teacher teacher = teacherRepository.findById(sectionCreateRequest.getTeacherId()).orElseThrow(()-> new IllegalArgumentException("Teacher with id" + sectionCreateRequest.getTeacherId() + "not found"));
         // find timeslot
-        Timeslot timeslot = timeslotRepository.findById(sectionCreateDto.getTimeslotId()).orElseThrow(()-> new  IllegalArgumentException("Timeslot with id" + sectionCreateDto.getTimeslotId() + "not found"));
+        Timeslot timeslot = timeslotRepository.findById(sectionCreateRequest.getTimeslotId()).orElseThrow(()-> new  IllegalArgumentException("Timeslot with id" + sectionCreateRequest.getTimeslotId() + "not found"));
         // find venue
-        Venue venue = venueRepository.findById(sectionCreateDto.getVenueId()).orElseThrow(()-> new IllegalArgumentException("Venue with id" + sectionCreateDto.getVenueId() + "not found"));
+        Venue venue = venueRepository.findById(sectionCreateRequest.getVenueId()).orElseThrow(()-> new IllegalArgumentException("Venue with id" + sectionCreateRequest.getVenueId() + "not found"));
         // find course
-        Course course = courseRepository.findById(sectionCreateDto.getCourseId()).orElseThrow(()-> new IllegalArgumentException("Course with id" + sectionCreateDto.getCourseId() + "not found"));
+        Course course = courseRepository.findById(sectionCreateRequest.getCourseId()).orElseThrow(()-> new IllegalArgumentException("Course with id" + sectionCreateRequest.getCourseId() + "not found"));
         // get status pending
         SectionStatus status = sectionStatusRepository.findById(1L).orElseThrow(()->new AppException("Server Error: Error with Section Status"));
 
         // venue available check
-        List<Venue> availableVenues = venueRepository.findAllAvailableVenue(sectionCreateDto.getClassSize(),sectionCreateDto.getDate(), sectionCreateDto.getTimeslotId());
+        List<Venue> availableVenues = venueRepository.findAllAvailableVenue(sectionCreateRequest.getClassSize(), sectionCreateRequest.getDate(), sectionCreateRequest.getTimeslotId());
         boolean isVenueAvailable = availableVenues.stream()
           .anyMatch(v -> v.getId().equals(venue.getId()));
 
         if (!isVenueAvailable) {
-            throw new IllegalArgumentException("Selected venue is not available for this date and timeslot.");
+            throw new BusinessLogicException("Selected venue is not available for this date and timeslot.");
         }
+
+        // Ensure teacher is teaching that subject
+        teacherRepository.findTeacherByCourse(teacher.getId(),
+          course.getId()).orElseThrow(()-> new IllegalArgumentException(
+            "The teacher is not teaching the course."));
+
         // teacher available check
-        List<Teacher> availableTeachers = teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(sectionCreateDto.getDate(), sectionCreateDto.getTimeslotId(), sectionCreateDto.getCourseId());
+        List<Teacher> availableTeachers = teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(sectionCreateRequest.getDate(), sectionCreateRequest.getTimeslotId(), sectionCreateRequest.getCourseId());
         boolean isTeacherAvailable = availableTeachers.stream()
           .anyMatch(t -> t.getId().equals(teacher.getId()));
 
         if (!isTeacherAvailable) {
-            throw new IllegalArgumentException("Selected teacher is not available for this date and timeslot or do not teacher this course.");
+            throw new BusinessLogicException("Selected teacher is not available for this date and timeslot.");
         }
 
 
         Section newSection = new Section(null,
-          sectionCreateDto.getRemark(),
-          sectionCreateDto.getDate(),
-          sectionCreateDto.getClassSize(),
+          sectionCreateRequest.getRemark(),
+          sectionCreateRequest.getDate(),
+          sectionCreateRequest.getClassSize(),
           status,
           timeslot,
           teacher,
@@ -185,5 +193,33 @@ public class SectionServiceImpl implements SectionService {
         );
 
         sectionRepository.save(newSection);
+    }
+
+    @Override
+    @Transactional
+    public void updateSectionTeacher(SubTeacherRequest subTeacherRequest) {
+        // Get Section
+        Section section = sectionRepository.findById(subTeacherRequest.getSectionId()).orElseThrow(()-> new IllegalArgumentException("Section with id" + subTeacherRequest.getSectionId() + "does not exist"));
+        // Get Teacher
+        Teacher newTeacher = teacherRepository.findById(subTeacherRequest.getTeacherId()).orElseThrow(()-> new IllegalArgumentException("Teacher with id" + subTeacherRequest.getTeacherId() + "does not exist"));
+
+        // Ensure teacher is teaching that subject
+        teacherRepository.findTeacherByCourse(newTeacher.getId(),
+          section.getCourse().getId()).orElseThrow(()-> new BusinessLogicException("New Teacher does not teach that course"));
+
+
+        // Ensure that newTeacher is available
+        List<Teacher> availableTeachers = teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(section.getDate(),section.getTimeslot().getId(),section.getCourse().getId());
+
+        boolean isTeacherAvailable = availableTeachers.stream()
+          .anyMatch(t -> t.getId().equals(newTeacher.getId()));
+
+        // throw error if Teacher is not available
+        if (!isTeacherAvailable) {
+            throw new BusinessLogicException("Selected teacher is not available for this date and timeslot");
+        }
+
+        section.setTeacher(newTeacher);
+        sectionRepository.save(section);
     }
 }

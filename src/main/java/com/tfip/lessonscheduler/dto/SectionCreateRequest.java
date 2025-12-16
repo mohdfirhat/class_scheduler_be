@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SectionCreateDto {
+public class SectionCreateRequest {
   private String remark;
   private LocalDate date;
   private Integer classSize;

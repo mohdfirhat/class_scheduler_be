@@ -2,6 +2,7 @@ package com.tfip.lessonscheduler.repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,6 +12,20 @@ import org.springframework.data.repository.query.Param;
 
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
   List<Teacher> findAllByManagerId(Long managerId);
+
+
+  @Query("""
+      SELECT t
+      FROM Teacher t
+      JOIN t.courses c
+      WHERE t.id = :teacherId 
+      AND c.id = :courseId
+      AND t.manager.id IS NOT NULL
+    """)
+  Optional<Teacher> findTeacherByCourse(
+    @Param("teacherId") Long teacherId,
+    @Param("courseId") Long courseId
+  );
 
   /**
    * Get available teacher that fit this description

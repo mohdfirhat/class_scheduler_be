@@ -1,8 +1,9 @@
 package com.tfip.lessonscheduler.controller;
 
-import com.tfip.lessonscheduler.dto.SectionCreateDto;
+import com.tfip.lessonscheduler.dto.SectionCreateRequest;
 import com.tfip.lessonscheduler.dto.SectionWCourseAndVenueAndTeacherResponse;
 import com.tfip.lessonscheduler.dto.SectionWCourseAndAvailableTeachersResponse;
+import com.tfip.lessonscheduler.dto.SubTeacherRequest;
 import com.tfip.lessonscheduler.entity.Section;
 import com.tfip.lessonscheduler.service.SectionService;
 import org.springframework.http.HttpStatus;
@@ -44,9 +45,13 @@ public class SectionController {
     }
 
     @PostMapping
-    public void createSection(@RequestBody SectionCreateDto sectionCreateDto) {
-        sectionService.saveSection(sectionCreateDto);
+    public void createSection(@RequestBody SectionCreateRequest sectionCreateRequest) {
+        sectionService.saveSection(sectionCreateRequest);
     }
 
+    @PutMapping("sub_teacher")
+    public void updateSectionTeacher(@RequestBody SubTeacherRequest subTeacherRequest) {
+        sectionService.updateSectionTeacher(subTeacherRequest);
+    }
 
 }
