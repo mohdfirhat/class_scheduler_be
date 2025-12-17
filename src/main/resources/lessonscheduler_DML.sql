@@ -1,15 +1,16 @@
 USE lessonscheduler;
 
-DELETE FROM teacher_leave,
-            venue,
-            timeslot,
-            teacher_leave_status,
-            section_status,
-            teachers_courses,
-            teacher,
-            section,
-            course,
-            department;
+
+DELETE FROM teacher_leave;
+DELETE FROM venue;
+DELETE FROM timeslot;
+DELETE FROM teacher_leave_status;
+DELETE FROM section_status;
+DELETE FROM teachers_courses;
+DELETE FROM teacher;
+DELETE FROM section;
+DELETE FROM course;
+DELETE FROM department;
 
 INSERT INTO department(id, name) 
 VALUES 
