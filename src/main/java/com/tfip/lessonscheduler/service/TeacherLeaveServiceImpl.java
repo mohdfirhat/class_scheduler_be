@@ -8,7 +8,6 @@ import com.tfip.lessonscheduler.entity.TeacherLeaveStatus;
 import com.tfip.lessonscheduler.exception.StatusConflictException;
 import com.tfip.lessonscheduler.exception.ResourceNotFoundException;
 import com.tfip.lessonscheduler.helpers.LeaveServiceHelpers;
-import com.tfip.lessonscheduler.mapper.TeacherLeaveMapper;
 import com.tfip.lessonscheduler.model.LeaveUpdatingDetails;
 import com.tfip.lessonscheduler.repository.SectionRepository;
 import com.tfip.lessonscheduler.repository.TeacherLeaveRepository;
@@ -25,16 +24,13 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
     private final TeacherRepository teacherRepository;
     private final SectionRepository sectionRepository;
     private final TeacherLeaveRepository leaveRepository;
-    private final TeacherLeaveMapper teacherLeaveMapper;
 
     public TeacherLeaveServiceImpl(TeacherRepository teacherRepository,
                                    SectionRepository sectionRepository,
-                                   TeacherLeaveRepository leaveRepository,
-                                   TeacherLeaveMapper teacherLeaveMapper) {
+                                   TeacherLeaveRepository leaveRepository) {
         this.teacherRepository = teacherRepository;
         this.sectionRepository = sectionRepository;
         this.leaveRepository = leaveRepository;
-        this.teacherLeaveMapper = teacherLeaveMapper;
     }
 
     @Override
@@ -108,18 +104,17 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
         List<TeacherLeave> teacherLeaves =
                 leaveRepository.findConflictingLeavesWithPendingStatus();
 
-        if(!teacherLeaves.isEmpty()){
-            for(TeacherLeave leave: teacherLeaves){
+        if(!teacherLeaves.isEmpty()) {
+            for (TeacherLeave leave : teacherLeaves) {
                 List<Section> conflictingSections =
-                        sectionRepository.findByTeacherIdAndDateBetween(
-                                leave.getTeacher().getId(),
-                                leave.getStartDate(),
-                                leave.getEndDate());
+                  sectionRepository.findByTeacherIdAndDateBetween(
+                    leave.getTeacher().getId(),
+                    leave.getStartDate(),
+                    leave.getEndDate());
 
-                teacherLeavesWConflictingSections.add(
-                        teacherLeaveMapper
-                                .toTeacherLeaveWConflictingSectionsResponse(leave
-                                        , conflictingSections));
+                TeacherLeaveWConflictingSectionsResponse teacherLeave =
+                  new TeacherLeaveWConflictingSectionsResponse(leave.getId(), leave.getStartDate(), leave.getEndDate(), leave.getStatus(), leave.getTeacher(), conflictingSections);
+                teacherLeavesWConflictingSections.add(teacherLeave);
             }
         }
 

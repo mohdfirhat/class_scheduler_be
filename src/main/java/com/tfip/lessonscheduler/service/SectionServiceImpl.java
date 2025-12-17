@@ -3,14 +3,11 @@ package com.tfip.lessonscheduler.service;
 import com.tfip.lessonscheduler.dto.SectionCreateRequest;
 import com.tfip.lessonscheduler.dto.SectionWCourseAndAvailableTeachersResponse;
 import com.tfip.lessonscheduler.dto.SubTeacherRequest;
-import com.tfip.lessonscheduler.dto.TeacherDto;
 import com.tfip.lessonscheduler.entity.*;
 import com.tfip.lessonscheduler.exception.AppException;
 import com.tfip.lessonscheduler.exception.BusinessLogicException;
 import com.tfip.lessonscheduler.exception.ResourceNotFoundException;
 import com.tfip.lessonscheduler.helpers.SectionServiceHelpers;
-import com.tfip.lessonscheduler.mapper.CourseMapper;
-import com.tfip.lessonscheduler.mapper.TeacherMapper;
 import com.tfip.lessonscheduler.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -27,19 +24,15 @@ public class SectionServiceImpl implements SectionService {
     private final SectionRepository sectionRepository;
     private final TeacherLeaveRepository teacherLeaveRepository;
     private final TeacherRepository teacherRepository;
-    private final TeacherMapper teacherMapper;
-    private final CourseMapper courseMapper;
     private final TimeslotRepository timeslotRepository;
     private final VenueRepository venueRepository;
     private final CourseRepository courseRepository;
     private final SectionStatusRepository sectionStatusRepository;
 
-    public SectionServiceImpl(SectionRepository sectionRepository, TeacherLeaveRepository teacherLeaveRepository, TeacherRepository teacherRepository, TeacherMapper teacherMapper, CourseMapper courseMapper, TimeslotRepository timeslotRepository, VenueRepository venueRepository, CourseRepository courseRepository,SectionStatusRepository sectionStatusRepository) {
+    public SectionServiceImpl(SectionRepository sectionRepository, TeacherLeaveRepository teacherLeaveRepository, TeacherRepository teacherRepository, TimeslotRepository timeslotRepository, VenueRepository venueRepository, CourseRepository courseRepository,SectionStatusRepository sectionStatusRepository) {
         this.sectionRepository = sectionRepository;
         this.teacherLeaveRepository = teacherLeaveRepository;
         this.teacherRepository = teacherRepository;
-        this.teacherMapper = teacherMapper;
-        this.courseMapper = courseMapper;
         this.timeslotRepository = timeslotRepository;
         this.venueRepository = venueRepository;
         this.courseRepository = courseRepository;
@@ -68,11 +61,8 @@ public class SectionServiceImpl implements SectionService {
 
         // Find available teachers for each section
         for (Section section : conflictingSections) {
-            List<TeacherDto> availableTeachers =
-                    teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(section.getDate(),section.getTimeslot().getId(),section.getCourse().getId())
-                            .stream()
-                            .map(teacherMapper::toTeacherDto)
-                            .toList();
+            List<Teacher> availableTeachers =
+                    teacherRepository.findAllAvailableTeachersByCourseAndNotOnLeave(section.getDate(),section.getTimeslot().getId(),section.getCourse().getId());
 
             SectionWCourseAndAvailableTeachersResponse res =
                     new SectionWCourseAndAvailableTeachersResponse(
@@ -82,7 +72,7 @@ public class SectionServiceImpl implements SectionService {
                         section.getTimeslot(),
                         section.getClassSize(),
                         section.getStatus(),
-                        courseMapper.toCourseDto(section.getCourse()),
+                        section.getCourse(),
                         availableTeachers
                     );
 

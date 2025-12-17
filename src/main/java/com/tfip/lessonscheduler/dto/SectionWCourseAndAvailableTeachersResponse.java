@@ -1,6 +1,8 @@
 package com.tfip.lessonscheduler.dto;
 
+import com.tfip.lessonscheduler.entity.Course;
 import com.tfip.lessonscheduler.entity.SectionStatus;
+import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.Timeslot;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +21,6 @@ public class SectionWCourseAndAvailableTeachersResponse {
     private Timeslot timeslot;
     private Integer classSize;
     private SectionStatus status;
-    private CourseDto course;
-    private List<TeacherDto> availableTeachers;
+    private Course course;
+    private List<Teacher> availableTeachers;
 }
