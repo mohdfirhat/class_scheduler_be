@@ -37,7 +37,7 @@ public class Teacher {
   @Column(name = "last_name",nullable=false)
   private String lastName;
 
-  @Column(name = "email",nullable=false)
+  @Column(name = "email",nullable=false,unique=true)
   private String email;
 
   @Column(name = "leave_days",nullable=false,columnDefinition="INT DEFAULT 14")
@@ -46,7 +46,7 @@ public class Teacher {
   @Column(name="avatar_url")
   private String avatar;
 
-  @JsonIgnore
+  @JsonIgnoreProperties({"manager","teachers","sections","teacherLeaves","department","courses"})
   @ManyToOne
   @JoinColumn(name = "manager_id", referencedColumnName = "id")
   private Teacher manager;

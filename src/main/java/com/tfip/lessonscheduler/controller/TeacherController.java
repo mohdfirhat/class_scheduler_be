@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.tfip.lessonscheduler.dto.*;
+import com.tfip.lessonscheduler.entity.Teacher;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,12 @@ public class TeacherController {
 
   public TeacherController(TeacherService teacherService) {
     this.teacherService= teacherService;
+  }
+
+  @GetMapping
+  public ResponseEntity<List<Teacher>> getAllTeachers() {
+    return new ResponseEntity<>(teacherService.getAllTeachers(),
+      HttpStatus.OK);
   }
 
   @GetMapping("{managerId}/courses")

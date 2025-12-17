@@ -48,7 +48,7 @@ public class Section {
           nullable=false)
   private Timeslot timeslot;
 
-  @JsonIgnoreProperties("section")
+  @JsonIgnoreProperties({"sections","teacherLeaves","courses"})
   @ManyToOne
   @JoinColumn(name = "teacher_id", referencedColumnName = "id",nullable=false)
   private Teacher teacher;

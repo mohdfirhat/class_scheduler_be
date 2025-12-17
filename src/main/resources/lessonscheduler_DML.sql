@@ -1,20 +1,22 @@
-DELETE FROM teacher_leave;
-DELETE FROM venue;
-DELETE FROM timeslot;
-DELETE FROM teacher_leave_status;
-DELETE FROM section_status;
-DELETE FROM teachers_courses;
-DELETE FROM teacher;
-DELETE FROM section;
-DELETE FROM course;
-DELETE FROM department;
+USE lessonscheduler;
+
+DELETE FROM teacher_leave,
+            venue,
+            timeslot,
+            teacher_leave_status,
+            section_status,
+            teachers_courses,
+            teacher,
+            section,
+            course,
+            department;
 
 INSERT INTO department(id, name) 
 VALUES 
-	(1, "Computer Science"),
-	(2, "English"),
-	(3, "History"),
-	(4, "Science");
+	(1, 'Computer Science'),
+	(2, 'English'),
+	(3, 'History'),
+	(4, 'Science');
 
 INSERT INTO course 
 	(id, department_id,name,course_code, description)
@@ -59,7 +61,7 @@ VALUES
 	(2,5),
 	(2,6),
 	
-   (3,1),
+    (3,1),
 	(3,2),
 	(3,3),
 	(3,4),
@@ -120,15 +122,15 @@ VALUES
 INSERT INTO section
 	(id, teacher_id,venue_id,course_id,section_status_id,timeslot_id,remark,date,class_size)
 VALUES 
-	(1,2,1,1,2,1,'lesson 1','2025-12-20`',10),
+	(1,2,1,1,2,1,'lesson 1','2025-12-20',10),
 	(2,3,1,2,2,1,'lesson 2','2025-12-20',10),
 	(3,2,1,2,2,2,'lesson 3','2025-12-20',10),
 	(4,3,1,3,2,3,'lesson 4','2025-12-20', 10),
 	(5,4,1,3,2,4,'lesson 5','2025-12-20', 10),
-   (6,4,1,2,1,4,'lesson 6','2025-12-21', 40),
-   (7,2,1,4,1,4,'lesson 7','2025-12-22', 30),
-   (8,2,1,4,1,4,'lesson 8','2025-12-22', 20),
-   (9,10,2,6,2,3, 'SWE test', '2025-12-10', 20);
+    (6,4,4,2,1,4,'lesson 6','2025-12-21', 40),
+    (7,2,3,4,1,4,'lesson 7','2025-12-22', 30),
+    (8,2,2,4,1,4,'lesson 8','2025-12-22', 20),
+    (9,10,2,6,2,3, 'SWE test', '2025-12-10', 20);
 
 INSERT INTO teacher_leave_status
     (id, type)
@@ -147,8 +149,8 @@ VALUES
     (5,5,2, '2025-11-19', '2025-11-22'),
     (6,5,3, '2025-11-19', '2025-11-29'),
     (7,2,1, '2025-12-19', '2025-12-23'),
-    (8,3,1, '2025-12-01', '2025-10-29'),
-    (9,4,1, '2025-12-01', '2025-10-15'),
-	 (10,10,1, '2025-12-10', '2025-12-15');
+    (8,3,1, '2025-12-01', '2025-12-29'),
+    (9,4,1, '2025-12-01', '2025-12-15'),
+	(10,10,1, '2025-12-10', '2025-12-15');
 
     

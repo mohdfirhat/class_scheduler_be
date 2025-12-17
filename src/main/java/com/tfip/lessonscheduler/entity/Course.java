@@ -34,7 +34,7 @@ public class Course {
   @Column(name = "name",nullable=false)
   private String name;
 
-  @Column(name = "course_code", nullable = false, columnDefinition = "CHAR(5)")
+  @Column(name = "course_code", nullable = false, unique = true, columnDefinition = "CHAR(5)")
   private String courseCode;
 
   @Column(name = "description",length=1000)

@@ -23,6 +23,11 @@ public class TeacherServiceImpl implements TeacherService{
   }
 
   @Override
+  public List<Teacher> getAllTeachers() {
+    return teacherRepository.findAll();
+  }
+
+  @Override
   public List<TeacherWCoursesAndDepartmentResponse> getTeachersWithCoursesAndDepartment(Long managerId) {
     return teacherRepository.findAllByManagerId(managerId).stream().map(teacherMapper::toTeacherWCourseAndDepartmentResponse).toList();
   }

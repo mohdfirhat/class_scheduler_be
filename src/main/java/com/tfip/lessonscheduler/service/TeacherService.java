@@ -4,8 +4,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.tfip.lessonscheduler.dto.*;
+import com.tfip.lessonscheduler.entity.Teacher;
 
 public interface TeacherService {
+
+  List<Teacher> getAllTeachers();
+
   List<TeacherWCoursesAndDepartmentResponse> getTeachersWithCoursesAndDepartment(Long managerId);
 
   List<TeacherWLeavesResponse> getTeachersWithLeaves(Long managerId);

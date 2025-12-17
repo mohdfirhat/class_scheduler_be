@@ -1,13 +1,21 @@
-DROP TABLE IF EXISTS section;
-DROP TABLE IF EXISTS teachers_courses;
-DROP TABLE IF EXISTS teacher_leave;
-DROP TABLE IF EXISTS teacher;
-DROP TABLE IF EXISTS course;
-DROP TABLE IF EXISTS department;
-DROP TABLE IF EXISTS section_status;
-DROP TABLE IF EXISTS teacher_leave_status;
-DROP TABLE IF EXISTS timeslot;
-DROP TABLE IF EXISTS venue;
+-- CREATE DATABASE
+DROP DATABASE IF EXISTS lessonscheduler;
+CREATE DATABASE IF NOT EXISTS lessonscheduler;
+
+-- USE DATABASE
+USE lessonscheduler;
+
+-- DROP TABLES
+DROP TABLE IF EXISTS section,
+                    teachers_courses,
+                    teacher_leave,
+                    teacher,
+                    course,
+                    department,
+                    section_status,
+                    teacher_leave_status,
+                    timeslot,
+                    venue;
 
 CREATE TABLE venue (
 --	Variables
@@ -21,6 +29,7 @@ CREATE TABLE venue (
 	PRIMARY KEY(id)
 );
 
+-- CREATE TABLES
 CREATE TABLE timeslot (
 -- Variables
 	id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -53,7 +62,7 @@ CREATE TABLE section_status (
 CREATE TABLE department (
 -- Variables
 	id BIGINT(20) NOT NULL AUTO_INCREMENT,
-	name VARCHAR(255) UNIQUE NOT NULL,
+	name VARCHAR(255) NOT NULL,
 -- Constraints
 	PRIMARY KEY(id),
 	UNIQUE KEY(NAME)
@@ -68,6 +77,7 @@ CREATE TABLE course (
 	description VARCHAR(1000) DEFAULT NULL,
 -- Constraints
 	PRIMARY KEY(id),
+    UNIQUE KEY (course_code),
 	CONSTRAINT course_FK_department_id FOREIGN KEY(department_id) REFERENCES department(id) ON DELETE CASCADE
 );
 
@@ -83,6 +93,7 @@ CREATE TABLE teacher (
 	avatar_url VARCHAR(255) DEFAULT NULL,
 -- Constraints
 	PRIMARY KEY(id),
+    UNIQUE KEY (email),
 	CONSTRAINT teacher_FK_manager_id FOREIGN KEY(manager_id) REFERENCES teacher(id) ON DELETE SET NULL,
 	CONSTRAINT teacher_FK_department_id FOREIGN KEY(department_id) REFERENCES department(id) ON DELETE CASCADE
 );
