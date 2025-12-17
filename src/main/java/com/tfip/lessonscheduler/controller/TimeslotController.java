@@ -14,12 +14,19 @@ import java.util.List;
 @RequestMapping("api/timeslots")
 public class TimeslotController {
 
-    private TimeslotService timeslotService;
+    private final TimeslotService timeslotService;
 
     public TimeslotController(TimeslotService timeslotService) {
         this.timeslotService = timeslotService;
     }
 
+    /**
+     * Endpoint to get all Timeslots <br/>
+     * Endpoint: {@code http://localhost:8080/api/timeslots} <br/>
+     * Method: {@code GET} <br/>
+     *
+     * @return ResponseEntity with the list of Timeslots
+     */
     @GetMapping
     public ResponseEntity<List<Timeslot>> getTimeslots() {
         return new ResponseEntity<>(timeslotService.getTimeslots(), HttpStatus.OK);

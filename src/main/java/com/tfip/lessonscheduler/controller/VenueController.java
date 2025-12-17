@@ -23,7 +23,18 @@ public class VenueController {
     this.venueService = venueService;
   }
 
-  @GetMapping("")
+  /**
+   * Endpoint to get all Venues that fit the following criteria
+   * <ul>
+   *   <li>Available venue (no lesson on that day)</li>
+   *   <li>Class Size lesser or equal to occupancy</li>
+   * </ul>
+   * Endpoint: {@code http://localhost:8080/api/venues} <br/>
+   * Method: {@code GET} <br/>
+   *
+   * @return ResponseEntity with the list of Venues
+   */
+  @GetMapping
   public ResponseEntity<List<Venue>> getVenuesGreaterThanClassSize(
     @RequestParam Integer classSize,
     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,

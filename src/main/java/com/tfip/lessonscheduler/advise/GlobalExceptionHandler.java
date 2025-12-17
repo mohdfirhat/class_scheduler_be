@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+  /**
+   * Response for Resource Not Found Exception with HTTP status 404 <br/>
+   * @return ResponseEntity with a String with the error message
+   */
   @ExceptionHandler({
     ResourceNotFoundException.class
   })
@@ -18,6 +22,11 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
   }
 
+  /**
+   * Response for Bad Request Exception with HTTP status 400 <br/>
+   * Used for Business Logic
+   * @return ResponseEntity with a String with the error message
+   */
   @ExceptionHandler({
     IllegalArgumentException.class,
     BusinessLogicException.class
@@ -26,7 +35,21 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
   }
 
+  /**
+   * Response for All Conflict Exception with HTTP status 409 <br/>
+   * @return ResponseEntity with a String with the error message
+   */
+  @ExceptionHandler({
+  StatusConflictException.class
+  })
+  public ResponseEntity<String> handleStatusConflictException(StatusConflictException e) {
+      return new ResponseEntity<>(e.getMessage() , HttpStatus.CONFLICT);
+  }
 
+  /**
+   * Response for All Uncaught Exception with HTTP status 500 <br/>
+   * @return ResponseEntity with a String with the error message
+   */
   @ExceptionHandler({
     Exception.class
   })
@@ -34,11 +57,4 @@ public class GlobalExceptionHandler {
     e.printStackTrace();
     return new ResponseEntity<>("Something is wrong with the server", HttpStatus.INTERNAL_SERVER_ERROR);
   }
-
-    @ExceptionHandler({
-    StatusConflictException.class
-    })
-    public ResponseEntity<String> handleStatusConflictException(StatusConflictException e) {
-        return new ResponseEntity<>(e.getMessage() , HttpStatus.CONFLICT);
-    }
 }
