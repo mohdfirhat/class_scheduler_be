@@ -1,22 +1,19 @@
 package com.tfip.lessonscheduler.service;
 
 import com.tfip.lessonscheduler.dto.TeacherLeaveWConflictingSectionsResponse;
-import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
 import com.tfip.lessonscheduler.model.LeaveUpdatingDetails;
 
 import java.util.List;
 
 public interface TeacherLeaveService {
-    List<TeacherLeaveWTeacherResponse> getLeavesOfAllTeachersInvolved(Long leaveId);
+    List<TeacherLeave> getLeavesOfAllTeachersInvolved(Long leaveId);
 
-    TeacherLeaveWTeacherResponse getByIdWTeacher(Long leaveId);
+    TeacherLeave getByIdWTeacher(Long leaveId);
 
     List<TeacherLeave> getLeavesWithNonPendingStatus();
 
     List<TeacherLeave> getLeavesWithPendingStatus();
-
-    List<TeacherLeave> getConflictingLeavesWithPendingStatus();
 
     List<TeacherLeave> getNonConflictingLeavesWithPendingStatus();
 

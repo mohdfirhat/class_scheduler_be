@@ -40,7 +40,7 @@ public class TeacherLeave {
   @JoinColumn(name = "teacher_leave_status_id", referencedColumnName = "id",nullable=false)
   private TeacherLeaveStatus status;
 
-  @JsonIgnoreProperties("teacherLeaves")
+  @JsonIgnoreProperties({"teacherLeaves","sections","courses"})
   @ManyToOne
   @JoinColumn(name = "teacher_id", referencedColumnName = "id",nullable=false)
   private Teacher teacher;

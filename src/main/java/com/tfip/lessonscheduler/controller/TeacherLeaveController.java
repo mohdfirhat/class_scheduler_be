@@ -1,7 +1,6 @@
 package com.tfip.lessonscheduler.controller;
 
 import com.tfip.lessonscheduler.dto.TeacherLeaveWConflictingSectionsResponse;
-import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
 import com.tfip.lessonscheduler.model.LeaveUpdatingDetails;
 import com.tfip.lessonscheduler.service.TeacherLeaveService;
@@ -28,7 +27,7 @@ public class TeacherLeaveController {
      * @return ResponseEntity with the TeacherLeave
      */
     @GetMapping("{leaveId}/teachers")
-    public ResponseEntity<TeacherLeaveWTeacherResponse> getByIdWTeacher(@PathVariable Long leaveId) {
+    public ResponseEntity<TeacherLeave> getByIdWTeacher(@PathVariable Long leaveId) {
         return new ResponseEntity<>(teacherLeaveService.getByIdWTeacher(leaveId),
                 HttpStatus.OK);
     }
@@ -42,7 +41,7 @@ public class TeacherLeaveController {
      * @return ResponseEntity with a list of TeacherLeaves
      */
     @GetMapping("conflict_leave/{leaveId}/all_leaves")
-    public ResponseEntity<List<TeacherLeaveWTeacherResponse>> getLeavesOfAllTeachersInvolved(@PathVariable Long leaveId) {
+    public ResponseEntity<List<TeacherLeave>> getLeavesOfAllTeachersInvolved(@PathVariable Long leaveId) {
         return new ResponseEntity<>(teacherLeaveService.getLeavesOfAllTeachersInvolved(leaveId),
                 HttpStatus.OK);
     }
@@ -99,6 +98,7 @@ public class TeacherLeaveController {
                 HttpStatus.OK);
     }
 
+    // TODO: Weilong change LeaveUpdatingDetails to String
     /**
      * Endpoint to update TeacherLeave status to reject <br/>
      * Endpoint: {@code http://localhost:8080/api/leaves/reject/1} <br/>
@@ -112,6 +112,7 @@ public class TeacherLeaveController {
                 HttpStatus.OK);
     }
 
+    // TODO: Weilong change LeaveUpdatingDetails to String
     /**
      * Endpoint to update TeacherLeave status to approve <br/>
      * Endpoint: {@code http://localhost:8080/api/leaves/reject/1} <br/>

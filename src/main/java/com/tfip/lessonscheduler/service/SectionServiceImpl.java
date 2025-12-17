@@ -1,7 +1,6 @@
 package com.tfip.lessonscheduler.service;
 
 import com.tfip.lessonscheduler.dto.SectionCreateRequest;
-import com.tfip.lessonscheduler.dto.SectionWCourseAndVenueAndTeacherResponse;
 import com.tfip.lessonscheduler.dto.SectionWCourseAndAvailableTeachersResponse;
 import com.tfip.lessonscheduler.dto.SubTeacherRequest;
 import com.tfip.lessonscheduler.dto.TeacherDto;
@@ -11,7 +10,6 @@ import com.tfip.lessonscheduler.exception.BusinessLogicException;
 import com.tfip.lessonscheduler.exception.ResourceNotFoundException;
 import com.tfip.lessonscheduler.helpers.SectionServiceHelpers;
 import com.tfip.lessonscheduler.mapper.CourseMapper;
-import com.tfip.lessonscheduler.mapper.SectionMapper;
 import com.tfip.lessonscheduler.mapper.TeacherMapper;
 import com.tfip.lessonscheduler.repository.*;
 import jakarta.transaction.Transactional;
@@ -30,19 +28,17 @@ public class SectionServiceImpl implements SectionService {
     private final TeacherLeaveRepository teacherLeaveRepository;
     private final TeacherRepository teacherRepository;
     private final TeacherMapper teacherMapper;
-    private final SectionMapper sectionMapper;
     private final CourseMapper courseMapper;
     private final TimeslotRepository timeslotRepository;
     private final VenueRepository venueRepository;
     private final CourseRepository courseRepository;
     private final SectionStatusRepository sectionStatusRepository;
 
-    public SectionServiceImpl(SectionRepository sectionRepository, TeacherLeaveRepository teacherLeaveRepository, TeacherRepository teacherRepository, TeacherMapper teacherMapper, SectionMapper sectionMapper, CourseMapper courseMapper, TimeslotRepository timeslotRepository, VenueRepository venueRepository, CourseRepository courseRepository,SectionStatusRepository sectionStatusRepository) {
+    public SectionServiceImpl(SectionRepository sectionRepository, TeacherLeaveRepository teacherLeaveRepository, TeacherRepository teacherRepository, TeacherMapper teacherMapper, CourseMapper courseMapper, TimeslotRepository timeslotRepository, VenueRepository venueRepository, CourseRepository courseRepository,SectionStatusRepository sectionStatusRepository) {
         this.sectionRepository = sectionRepository;
         this.teacherLeaveRepository = teacherLeaveRepository;
         this.teacherRepository = teacherRepository;
         this.teacherMapper = teacherMapper;
-        this.sectionMapper = sectionMapper;
         this.courseMapper = courseMapper;
         this.timeslotRepository = timeslotRepository;
         this.venueRepository = venueRepository;
@@ -97,7 +93,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public List<SectionWCourseAndVenueAndTeacherResponse> getSectionsOfAllTeachersInvolved(Long leaveId) {
+    public List<Section> getSectionsOfAllTeachersInvolved(Long leaveId) {
         // Get specific leave to resolve leave-section conflict
         TeacherLeave leave = teacherLeaveRepository.findById(leaveId)
                 .orElseThrow(() -> new ResourceNotFoundException("Leave with id " + leaveId +
@@ -128,9 +124,10 @@ public class SectionServiceImpl implements SectionService {
         LocalDate endMonth = leave.getStartDate().plusMonths(2);
 
 
-        return sectionRepository.findByTeacherIdInAndDateBetween(availableTeacherIds,startMonth,endMonth).stream()
-                .map(sectionMapper::toSectionWCourseAndVenueAndTeacherResponse)
-                .toList();
+//        return sectionRepository.findByTeacherIdInAndDateBetween(availableTeacherIds,startMonth,endMonth).stream()
+//                .map(sectionMapper::toSectionWCourseAndVenueAndTeacherResponse)
+//                .toList();
+        return sectionRepository.findByTeacherIdInAndDateBetween(availableTeacherIds,startMonth,endMonth);
     }
 
     @Override
@@ -139,10 +136,11 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public SectionWCourseAndVenueAndTeacherResponse getSectionById(Long sectionId) {
+    public Section getSectionById(Long sectionId) {
         Section section = sectionRepository.findById(sectionId).orElseThrow(()-> new ResourceNotFoundException("Section with id" + sectionId + "not found"));
 
-        return sectionMapper.toSectionWCourseAndVenueAndTeacherResponse(section);
+//        return sectionMapper.toSectionWCourseAndVenueAndTeacherResponse(section);
+        return section;
     }
 
     @Override

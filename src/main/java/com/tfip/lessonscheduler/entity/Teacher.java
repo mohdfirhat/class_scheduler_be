@@ -59,6 +59,7 @@ public class Teacher {
   @OneToMany(mappedBy = "teacher")
   private Set<Section> sections;
 
+  @JsonIgnoreProperties("teacher")
   @OneToMany(mappedBy = "teacher")
   private Set<TeacherLeave> teacherLeaves;
 

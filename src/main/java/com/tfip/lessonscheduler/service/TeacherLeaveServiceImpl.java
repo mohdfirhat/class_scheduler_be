@@ -1,7 +1,6 @@
 package com.tfip.lessonscheduler.service;
 
 import com.tfip.lessonscheduler.dto.TeacherLeaveWConflictingSectionsResponse;
-import com.tfip.lessonscheduler.dto.TeacherLeaveWTeacherResponse;
 import com.tfip.lessonscheduler.entity.Section;
 import com.tfip.lessonscheduler.entity.Teacher;
 import com.tfip.lessonscheduler.entity.TeacherLeave;
@@ -39,7 +38,7 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
     }
 
     @Override
-    public List<TeacherLeaveWTeacherResponse> getLeavesOfAllTeachersInvolved(Long leaveId) {
+    public List<TeacherLeave> getLeavesOfAllTeachersInvolved(Long leaveId) {
         // Get specific leave to resolve leave-schedule conflict
         TeacherLeave leave = leaveRepository.findById(leaveId)
                 .orElseThrow(() -> new ResourceNotFoundException("Leave with id " + leaveId + " not found"));
@@ -70,18 +69,20 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
         LocalDate endMonth = leave.getStartDate().plusMonths(2).atTime(23, 59
                 , 59).toLocalDate();
 
-        return leaveRepository.findByTeacherIdInAndStartDateBetween(availableTeacherIds,startMonth,endMonth).stream()
-                .map(teacherLeaveMapper::toTeacherLeaveWTeacherResponse)
-                .toList();
+//        return leaveRepository.findByTeacherIdInAndStartDateBetween(availableTeacherIds,startMonth,endMonth).stream()
+//                .map(teacherLeaveMapper::toTeacherLeaveWTeacherResponse)
+//                .toList();
+        return leaveRepository.findByTeacherIdInAndStartDateBetween(availableTeacherIds,startMonth,endMonth);
     }
 
     @Override
-    public TeacherLeaveWTeacherResponse getByIdWTeacher(Long leaveId) {
+    public TeacherLeave getByIdWTeacher(Long leaveId) {
         TeacherLeave leave =
           leaveRepository.findById(leaveId).orElseThrow(() -> new ResourceNotFoundException(
             "Leave with id " + leaveId + " not found"));
 
-        return teacherLeaveMapper.toTeacherLeaveWTeacherResponse(leave);
+//        return teacherLeaveMapper.toTeacherLeaveWTeacherResponse(leave);
+        return leave;
     }
 
     @Override
@@ -92,11 +93,6 @@ public class TeacherLeaveServiceImpl implements TeacherLeaveService {
     @Override
     public List<TeacherLeave> getLeavesWithPendingStatus(){
         return leaveRepository.findLeavesWithPendingStatus();
-    }
-
-    @Override
-    public List<TeacherLeave> getConflictingLeavesWithPendingStatus(){
-        return leaveRepository.findConflictingLeavesWithPendingStatus();
     }
 
     @Override

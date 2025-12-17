@@ -1,7 +1,6 @@
 package com.tfip.lessonscheduler.controller;
 
 import com.tfip.lessonscheduler.dto.SectionCreateRequest;
-import com.tfip.lessonscheduler.dto.SectionWCourseAndVenueAndTeacherResponse;
 import com.tfip.lessonscheduler.dto.SectionWCourseAndAvailableTeachersResponse;
 import com.tfip.lessonscheduler.dto.SubTeacherRequest;
 import com.tfip.lessonscheduler.entity.Section;
@@ -47,7 +46,7 @@ public class SectionController {
      * @return ResponseEntity with the list of Sections
      */
     @GetMapping("conflict_leave/{leaveId}/all_sections")
-    public ResponseEntity<List<SectionWCourseAndVenueAndTeacherResponse>> getSectionsWCourseAndVenueOfAllTeachersInvolved(@PathVariable Long leaveId) {
+    public ResponseEntity<List<Section>> getSectionsWCourseAndVenueOfAllTeachersInvolved(@PathVariable Long leaveId) {
         return new ResponseEntity<>(sectionService.getSectionsOfAllTeachersInvolved(leaveId), HttpStatus.OK);
     }
 
@@ -72,7 +71,7 @@ public class SectionController {
      * @return ResponseEntity with Section
      */
     @GetMapping("{sectionId}")
-    public ResponseEntity<SectionWCourseAndVenueAndTeacherResponse> getSectionWCourseAndVenueAndTeacherById(@PathVariable Long sectionId) {
+    public ResponseEntity<Section> getSectionWCourseAndVenueAndTeacherById(@PathVariable Long sectionId) {
         return new ResponseEntity<>(sectionService.getSectionById(sectionId),
           HttpStatus.OK);
     }
