@@ -41,7 +41,7 @@ VALUES
 INSERT INTO teacher 
 	(id, department_id, manager_id ,first_name,last_name,email, avatar_url)
 VALUES 
-	(1, 1,NULL,'Ada','Lovelace','ada.lovelace@gmail.com', null),
+	(1, 1,NULL,'Ada','Lovelace','ada.lovelace@gmail.com', 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg'),
 	(2, 1,1,'Alan','Turing','alan.turing@gmail.com', 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg'),
 	(3, 1,1,'Grace','Hopper','grace.hopper@gmail.com', 'https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/C597/production/_131938505_ind3bc40c5f1c10d4248e6bf848ae7033c8814005e9-1.jpg'),
 	(4, 1,1,'Linus','Torvalds','linus.torvalds@gmail.com', null),
@@ -212,6 +212,16 @@ VALUES
     (3,1,2,2,3,'lesson 3','2025-12-26',10),
     (3,1,1,2,4,'lesson 4','2025-12-26',10);
 
+# Create Linus Lesson Week 3
+INSERT INTO section
+(teacher_id,venue_id,course_id,section_status_id,timeslot_id,remark,date,class_size)
+VALUES
+    (4,1,1,1,1,'lesson 1','2025-12-15',10),
+    (4,1,2,1,2,'lesson 2','2025-12-16',10),
+    (4,1,2,2,4,'lesson 4','2025-12-18',10),
+    (4,1,2,1,1,'lesson 1','2025-12-19',10),
+    (4,1,2,2,2,'lesson 2','2025-12-19',10);
+
 INSERT INTO teacher_leave_status
     (id, type)
 VALUES
@@ -228,6 +238,12 @@ VALUES
     (2,2,'2025-12-19','2025-12-19'),
     (2,1,'2025-12-23','2025-12-23'),
     (2,2,'2025-12-26','2025-12-26');
+
+# Create Linus Leave
+INSERT INTO teacher_leave
+(teacher_id,teacher_leave_status_id,start_date,end_date)
+VALUES
+    (4,1,'2025-12-17','2025-12-17');
 
 # INSERT INTO teacher_leave
 #     (id,teacher_id,teacher_leave_status_id,start_date,end_date)
