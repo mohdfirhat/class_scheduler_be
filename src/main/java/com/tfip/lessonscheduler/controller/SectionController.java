@@ -52,12 +52,12 @@ public class SectionController {
 
     /**
      * Endpoint to get all Sections <br/>
-     * Endpoint: {@code http://localhost:8080/api/sections/all} <br/>
+     * Endpoint: {@code http://localhost:8080/api/sections} <br/>
      * Method: {@code GET} <br/>
      *
      * @return ResponseEntity with the list of Sections
      */
-    @GetMapping("all")
+    @GetMapping
     public ResponseEntity<List<Section>> getAllSections(){
         return new ResponseEntity<>(sectionService.getAllSections(),
                 HttpStatus.OK);

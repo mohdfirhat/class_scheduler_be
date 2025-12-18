@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -44,6 +45,17 @@ public class GlobalExceptionHandler {
   })
   public ResponseEntity<String> handleStatusConflictException(StatusConflictException e) {
       return new ResponseEntity<>(e.getMessage() , HttpStatus.CONFLICT);
+  }
+
+  /**
+   * Response for All Wrong API URL Exception with HTTP status 404 <br/>
+   * @return ResponseEntity with a String with the error message
+   */
+  @ExceptionHandler({
+    NoResourceFoundException.class
+  })
+  public ResponseEntity<String> handleInvalidURIException(Exception e) {
+    return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
   }
 
   /**

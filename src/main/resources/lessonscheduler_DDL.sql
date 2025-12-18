@@ -89,7 +89,7 @@ CREATE TABLE teacher (
 	first_name VARCHAR(255) NOT NULL,
 	last_name VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL,
-	leave_days INT(11) NOT NULL DEFAULT 14,
+	leave_days INT(11) NOT NULL DEFAULT 28,
 	avatar_url VARCHAR(255) DEFAULT NULL,
 -- Constraints
 	PRIMARY KEY(id),
