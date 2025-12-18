@@ -39,18 +39,18 @@ VALUES
   (5, 'LT-05','Lecture Hall 5','Address 5', 'https://moody.utexas.edu/sites/default/files/2021-09/dmc1202_6345_2015_main.jpeg',50);
 
 INSERT INTO teacher 
-	(id, department_id, manager_id ,first_name,last_name,email, avatar_url)
+	(id, department_id, manager_id ,first_name,last_name,email, avatar_url,leave_days)
 VALUES 
-	(1, 1,NULL,'Ada','Lovelace','ada.lovelace@gmail.com', 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg'),
-	(2, 1,1,'Alan','Turing','alan.turing@gmail.com', 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg'),
-	(3, 1,1,'Grace','Hopper','grace.hopper@gmail.com', 'https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/C597/production/_131938505_ind3bc40c5f1c10d4248e6bf848ae7033c8814005e9-1.jpg'),
-	(4, 1,1,'Linus','Torvalds','linus.torvalds@gmail.com', null),
-   (5, 1,1,'Bob','Marley','bob.marley@gmail.com', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmrev9Q6ElA9o8pOkbiTNIaGDXmdc1SrnNQQ&s'),
-   (6, 1,1,'Isha','Parker','isha.parker@gmail.com', 'https://media.istockphoto.com/id/1299077558/photo/lead-yourself-to-a-life-of-success.jpg?s=612x612&w=0&k=20&c=OQZPSnM1Eq-4Xx8bxJE8KQ5olJFfRw_YMc29aQ0Au6U='),
-   (7, 1,1,'Masako','Bellini','masako.bellini@gmail.com', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBuQi_p0Q1vlxn4R-Ebq1ZVX7GyzgBEqMmmw&s'),
-   (8, 1,1,'Adam','Lindqvist','adam.lindqvist@gmail.com', 'https://thumbs.dreamstime.com/b/portrait-handsome-smiling-young-man-folded-arms-smiling-joyful-cheerful-men-crossed-hands-isolated-studio-shot-172869765.jpg'),
-   (9, 1,1,'Jun Jie','Tan','junjie.tan@gmail.com', 'https://media.istockphoto.com/id/1288538088/photo/portrait-young-confident-smart-asian-businessman-look-at-camera-and-smile.jpg?s=612x612&w=0&k=20&c=qkOwVHZFC-fbtbTnufVGaXFhnQBcfEjzbu5ThSXVLR0='),
-   (10, 1,1,'Hui En','Lin','huien.lin@gmail.com', 'https://www.shutterstock.com/image-photo/young-chinese-woman-smiling-confident-600nw-2331522413.jpg');
+	(1, 1,NULL,'Ada','Lovelace','ada.lovelace@gmail.com', 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg',28),
+	(2, 1,1,'Alan','Turing','alan.turing@gmail.com', 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',26),
+	(3, 1,1,'Grace','Hopper','grace.hopper@gmail.com', 'https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/C597/production/_131938505_ind3bc40c5f1c10d4248e6bf848ae7033c8814005e9-1.jpg',28),
+	(4, 1,1,'Linus','Torvalds','linus.torvalds@gmail.com', null,28),
+   (5, 1,1,'Bob','Marley','bob.marley@gmail.com', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmrev9Q6ElA9o8pOkbiTNIaGDXmdc1SrnNQQ&s',28),
+   (6, 1,1,'Isha','Parker','isha.parker@gmail.com', 'https://media.istockphoto.com/id/1299077558/photo/lead-yourself-to-a-life-of-success.jpg?s=612x612&w=0&k=20&c=OQZPSnM1Eq-4Xx8bxJE8KQ5olJFfRw_YMc29aQ0Au6U=',28),
+   (7, 1,1,'Masako','Bellini','masako.bellini@gmail.com', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBuQi_p0Q1vlxn4R-Ebq1ZVX7GyzgBEqMmmw&s',28),
+   (8, 1,1,'Adam','Lindqvist','adam.lindqvist@gmail.com', 'https://thumbs.dreamstime.com/b/portrait-handsome-smiling-young-man-folded-arms-smiling-joyful-cheerful-men-crossed-hands-isolated-studio-shot-172869765.jpg',28),
+   (9, 1,1,'Jun Jie','Tan','junjie.tan@gmail.com', 'https://media.istockphoto.com/id/1288538088/photo/portrait-young-confident-smart-asian-businessman-look-at-camera-and-smile.jpg?s=612x612&w=0&k=20&c=qkOwVHZFC-fbtbTnufVGaXFhnQBcfEjzbu5ThSXVLR0=',28),
+   (10, 1,1,'Hui En','Lin','huien.lin@gmail.com', 'https://www.shutterstock.com/image-photo/young-chinese-woman-smiling-confident-600nw-2331522413.jpg',28);
 
 INSERT INTO teachers_courses
 	(teacher_id,course_id)
@@ -244,19 +244,3 @@ INSERT INTO teacher_leave
 (teacher_id,teacher_leave_status_id,start_date,end_date)
 VALUES
     (4,1,'2025-12-17','2025-12-17');
-
-# INSERT INTO teacher_leave
-#     (id,teacher_id,teacher_leave_status_id,start_date,end_date)
-# VALUES
-#     (1,3,1,'2025-10-20','2025-10-20'),
-#     (2,2,1, '2025-10-12', '2025-10-13'),
-#     (3,2,1, '2025-10-19', '2025-10-22'),
-#     (4,5,1, '2025-12-13', '2025-12-20'),
-#     (5,5,2, '2025-11-19', '2025-11-22'),
-#     (6,5,3, '2025-11-19', '2025-11-29'),
-#     (7,2,1, '2025-12-19', '2025-12-23'),
-#     (8,3,1, '2025-12-01', '2025-12-29'),
-#     (9,4,1, '2025-12-01', '2025-12-15'),
-# 	(10,10,1, '2025-12-10', '2025-12-15');
-
-    
