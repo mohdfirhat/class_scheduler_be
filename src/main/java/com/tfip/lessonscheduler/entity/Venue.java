@@ -11,6 +11,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 'Venue' entity that maps to the "venue" table in the database. This entity
+ * includes the venue id, name, address, description, image URL and occupancy.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,23 +22,46 @@ import lombok.Setter;
 @Entity
 @Table(name = "venue")
 public class Venue {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
 
-  @Column(name = "name",nullable=false)
-  private String name;
+    /**
+     * The id number of the venue, mapped to the "id" column in the database.
+     * Also used as the primary key in the "venue" table.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-  @Column(name = "address",nullable=false)
-  private String address;
+    /**
+     * The name of the venue, mapped to the "name" column in the database
+     */
+    @Column(name = "name", nullable = false)
+    private String name;
 
-  @Column(name = "description",length=1000)
-  private String description;
+    /**
+     * The address of the venue, mapped to the "address" column in the database
+     */
+    @Column(name = "address", nullable = false)
+    private String address;
 
-  @Column(name = "img_url")
-  private String imgUrl;
+    /**
+     * The description of the venue, mapped to the "description" column in the
+     * database
+     */
+    @Column(name = "description", length = 1000)
+    private String description;
 
-  @Column(name = "occupancy",nullable=false)
-  private Integer occupancy;
+    /**
+     * The image URL of the venue, mapped to the "img_url" column in the
+     * database
+     */
+    @Column(name = "img_url")
+    private String imgUrl;
+
+    /**
+     * The occupancy of the venue, mapped to the "occupancy" column in the
+     * database
+     */
+    @Column(name = "occupancy", nullable = false)
+    private Integer occupancy;
 }

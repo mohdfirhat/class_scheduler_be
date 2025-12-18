@@ -9,64 +9,77 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+/**
+ * GlobalExceptionHandler is a controller advice class that handles specific
+ * exceptions and returns an appropriate HTTP response with corresponding status
+ * codes. This class centralizes exception handling for the application.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-  /**
-   * Response for Resource Not Found Exception with HTTP status 404 <br/>
-   * @return ResponseEntity with a String with the error message
-   */
-  @ExceptionHandler({
-    ResourceNotFoundException.class
-  })
-  public ResponseEntity<String> handleNotFoundException(RuntimeException e) {
-    return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-  }
+    /**
+     * Response for Resource Not Found Exception with HTTP status 404 <br/>
+     *
+     * @return ResponseEntity with a String with the error message
+     */
+    @ExceptionHandler({
+            ResourceNotFoundException.class
+    })
+    public ResponseEntity<String> handleNotFoundException(RuntimeException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
-  /**
-   * Response for Bad Request Exception with HTTP status 400 <br/>
-   * Used for Business Logic
-   * @return ResponseEntity with a String with the error message
-   */
-  @ExceptionHandler({
-    IllegalArgumentException.class,
-    BusinessLogicException.class
-  })
-  public ResponseEntity<String> handleBadRequestException(RuntimeException e) {
-    return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-  }
+    /**
+     * Response for Bad Request Exception with HTTP status 400 <br/> Used for
+     * Business Logic
+     *
+     * @return ResponseEntity with a String with the error message
+     */
+    @ExceptionHandler({
+            IllegalArgumentException.class,
+            BusinessLogicException.class
+    })
+    public ResponseEntity<String> handleBadRequestException(
+            RuntimeException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
-  /**
-   * Response for All Conflict Exception with HTTP status 409 <br/>
-   * @return ResponseEntity with a String with the error message
-   */
-  @ExceptionHandler({
-  StatusConflictException.class
-  })
-  public ResponseEntity<String> handleStatusConflictException(StatusConflictException e) {
-      return new ResponseEntity<>(e.getMessage() , HttpStatus.CONFLICT);
-  }
+    /**
+     * Response for All Conflict Exception with HTTP status 409 <br/>
+     *
+     * @return ResponseEntity with a String with the error message
+     */
+    @ExceptionHandler({
+            StatusConflictException.class
+    })
+    public ResponseEntity<String> handleStatusConflictException(
+            StatusConflictException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+    }
 
-  /**
-   * Response for All Wrong API URL Exception with HTTP status 404 <br/>
-   * @return ResponseEntity with a String with the error message
-   */
-  @ExceptionHandler({
-    NoResourceFoundException.class
-  })
-  public ResponseEntity<String> handleInvalidURIException(Exception e) {
-    return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-  }
+    /**
+     * Response for All Wrong API URL Exception with HTTP status 404 <br/>
+     *
+     * @return ResponseEntity with a String with the error message
+     */
+    @ExceptionHandler({
+            NoResourceFoundException.class
+    })
+    public ResponseEntity<String> handleInvalidURIException(Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
-  /**
-   * Response for All Uncaught Exception with HTTP status 500 <br/>
-   * @return ResponseEntity with a String with the error message
-   */
-  @ExceptionHandler({
-    Exception.class
-  })
-  public ResponseEntity<String> handleGlobalException(Exception e) {
-    e.printStackTrace();
-    return new ResponseEntity<>("Something is wrong with the server", HttpStatus.INTERNAL_SERVER_ERROR);
-  }
+    /**
+     * Response for All Uncaught Exception with HTTP status 500 <br/>
+     *
+     * @return ResponseEntity with a String with the error message
+     */
+    @ExceptionHandler({
+            Exception.class
+    })
+    public ResponseEntity<String> handleGlobalException(Exception e) {
+        e.printStackTrace();
+        return new ResponseEntity<>("Something is wrong with the server",
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

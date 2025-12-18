@@ -13,34 +13,50 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * REST controller for managing venues. This controller provides endpoints to
+ * access and manipulate venue-related data.
+ */
 @RestController
 @RequestMapping("api/venues")
 public class VenueController {
 
-  private final VenueService venueService;
+    /**
+     * Service for managing venues and handling related business logic.
+     */
+    private final VenueService venueService;
 
-  public VenueController(VenueService venueService) {
-    this.venueService = venueService;
-  }
+    /**
+     * Constructs a new instance of VenueController with the provided
+     * VenueService.
+     *
+     * @param venueService the service layer dependency used for managing and
+     *                     accessing venue-related data
+     */
+    public VenueController(VenueService venueService) {
+        this.venueService = venueService;
+    }
 
-  /**
-   * Endpoint to get all Venues that fit the following criteria
-   * <ul>
-   *   <li>Available venue (no lesson on that day)</li>
-   *   <li>Class Size lesser or equal to occupancy</li>
-   * </ul>
-   * Endpoint: {@code http://localhost:8080/api/venues} <br/>
-   * Method: {@code GET} <br/>
-   *
-   * @return ResponseEntity with the list of Venues
-   */
-  @GetMapping
-  public ResponseEntity<List<Venue>> getVenuesGreaterThanClassSize(
-    @RequestParam Integer classSize,
-    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-    @RequestParam Long timeslotId
-    ) {
-    return new ResponseEntity<>(venueService.findAvailableVenues(classSize,date,timeslotId), HttpStatus.OK);
-  }
+    /**
+     * Endpoint to get all Venues that fit the following criteria
+     * <ul>
+     *   <li>Available venue (no lesson on that day)</li>
+     *   <li>Class Size lesser or equal to occupancy</li>
+     * </ul>
+     * Endpoint: {@code http://localhost:8080/api/venues} <br/>
+     * Method: {@code GET} <br/>
+     *
+     * @return ResponseEntity with the list of Venues
+     */
+    @GetMapping
+    public ResponseEntity<List<Venue>> getVenuesGreaterThanClassSize(
+            @RequestParam Integer classSize,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam Long timeslotId
+                                                                    ) {
+        return new ResponseEntity<>(
+                venueService.findAvailableVenues(classSize, date, timeslotId),
+                HttpStatus.OK);
+    }
 
 }
