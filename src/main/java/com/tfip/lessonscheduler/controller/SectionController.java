@@ -135,6 +135,20 @@ public class SectionController {
     }
 
     /**
+     * Endpoint to cancel Section by id after it has been approved <br/>
+     * EndEndpoint:
+     * {@code http://localhost:8080/api/sections/cancel/1} <br/> Method:
+     * {@code PUT}
+     *
+     * @return String with a success message
+     */
+    @PutMapping("cancelApproved/{sectionId}")
+    public ResponseEntity<String> cancelApprovedSection(@PathVariable Long sectionId) {
+        return new ResponseEntity<>(sectionService.cancelApprovedSection(sectionId)
+                , HttpStatus.OK);
+    }
+
+    /**
      * Endpoint to substitute Teacher for the Section <br/> Endpoint:
      * {@code http://localhost:8080/api/sections/sub_teacher} <br/> Method:
      * {@code PUT}

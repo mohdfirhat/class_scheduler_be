@@ -68,6 +68,16 @@ public interface SectionService {
     String cancelSection(Long sectionId);
 
     /**
+     * Cancels a section identified by the given section ID after it has been
+     * approved.
+     *
+     * @param sectionId the unique identifier of the section to be canceled
+     * @return a {@code String} message indicating the status or result of the
+     * operation
+     */
+    String cancelApprovedSection(Long sectionId);
+
+    /**
      * Approves a section identified by the given section ID.
      *
      * @param sectionId the unique identifier of the section to be approved

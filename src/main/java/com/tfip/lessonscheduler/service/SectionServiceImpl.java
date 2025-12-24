@@ -374,6 +374,39 @@ public class SectionServiceImpl implements SectionService {
 
         //check if the section has already been approved/canceled and return if
         // it has
+        SectionServiceHelpers.checkIfSectionStatusStillPending(section);
+
+        //create new SectionStatus and assign to section, then call repo to
+        // update the database
+        SectionStatus newStatus = new SectionStatus(3L, "rejected");
+        section.setStatus(newStatus);
+        sectionRepository.save(section);
+        return "Section " + sectionId + " has successfully been cancelled.";
+    }
+
+    /**
+     * Cancels a section with the specified ID by updating its status to
+     * "rejected" after the section has been approved. If the section does not
+     * exist, a
+     * {@code ResourceNotFoundException} is thrown. If the section has already
+     * been rejected, no further action is performed.
+     *
+     * @param sectionId the ID of the section to be canceled
+     * @return a message indicating the successful cancellation of the section
+     * @throws ResourceNotFoundException if the section with the given ID is not
+     *                                   found
+     */
+    @Transactional
+    public String cancelApprovedSection(Long sectionId) {
+
+        //check if the section exists in the database
+        Section section = sectionRepository.findById(sectionId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Leave with id " + sectionId + " not found."));
+
+        //check if the section has already been approved/canceled and return if
+        // it has
         SectionServiceHelpers.checkIfSectionAlreadyRejected(section);
 
         //create new SectionStatus and assign to section, then call repo to

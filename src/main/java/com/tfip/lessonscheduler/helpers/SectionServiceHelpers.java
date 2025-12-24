@@ -32,10 +32,10 @@ public class SectionServiceHelpers {
         String status = section.getStatus().getType();
         if (status.equals("approved")) {
             throw new StatusConflictException("Section " + section.getId() +
-                    "has already been approved.");
+                    " has already been approved.");
         } else if (status.equals("rejected")) {
             throw new StatusConflictException("Section " + section.getId() +
-                    "has already been cancelled.");
+                    " has already been cancelled.");
         }
     }
 }
