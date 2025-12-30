@@ -74,8 +74,8 @@ public class Teacher {
      * column in the database
      */
     @Column(name = "leave_days", nullable = false, columnDefinition = "INT " +
-            "DEFAULT 14")
-    private Integer leaveDays = 14;
+            "DEFAULT 28")
+    private Integer leaveDays = 28;
 
     /**
      * The avatar URL of the teacher, mapped to the "avatar_url" column in the
